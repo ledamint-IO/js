@@ -1,1 +1,2 @@
-src/programs/tokenMetadata/generated/
+dist
+node_modules
