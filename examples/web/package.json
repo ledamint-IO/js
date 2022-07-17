@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@metaplex/js": "workspace:^1.1.1",
-    "@solana/spl-token": "^0.1.8",
-    "@solana/web3.js": "^1.24.1"
+    "@safecoin/safe-token": "^0.1.8",
+    "@safecoin/web3.js": "^1.24.1"
   },
   "devDependencies": {
     "parcel": "next",

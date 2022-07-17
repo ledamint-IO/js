@@ -1,5 +1,5 @@
-import { Token, TOKEN_PROGRAM_ID, u64 } from '@solana/spl-token';
-import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
+import { Token, TOKEN_PROGRAM_ID, u64 } from '@safecoin/safe-token';
+import { Keypair, PublicKey, Transaction } from '@safecoin/web3.js';
 import { Optional } from '../../types';
 
 interface CreateApproveParams {

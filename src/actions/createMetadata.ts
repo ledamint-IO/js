@@ -1,10 +1,10 @@
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import {
   CreateMetadata,
   Metadata,
   MetadataDataData,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { sendTransaction } from './transactions';
 
 /**

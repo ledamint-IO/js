@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@safecoin/web3.js';
 import {
   AUCTION_EXTENDED_PUBKEY,
   AUCTION_PUBKEY,
@@ -19,7 +19,7 @@ import {
   PriceFloorType,
   WinnerLimit,
   WinnerLimitType,
-} from '@metaplex-foundation/mpl-auction';
+} from '@leda-mint-io/lpl-auction';
 
 describe('Auction transactions', () => {
   test('CreateAuction', async () => {

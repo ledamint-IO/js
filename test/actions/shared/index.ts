@@ -1,4 +1,4 @@
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import axios, { AxiosResponse } from 'axios';
 import { airdrop, LOCALHOST } from '@metaplex-foundation/amman';
 

@@ -1,9 +1,9 @@
-import { PublicKey } from '@solana/web3.js';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID, u64 } from '@solana/spl-token';
+import { PublicKey } from '@safecoin/web3.js';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID, u64 } from '@safecoin/safe-token';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
-import { Account, Transaction } from '@metaplex-foundation/mpl-core';
+import { Account, Transaction } from '@leda-mint-io/lpl-core';
 import { CreateAssociatedTokenAccount } from '../transactions/CreateAssociatedTokenAccount';
 
 /** Parameters for {@link sendToken} **/

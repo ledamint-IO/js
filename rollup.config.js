@@ -65,8 +65,8 @@ const config = ({ browser, format } = { browser: false }) => {
           name: 'metaplex',
           sourcemap: true,
           globals: {
-            '@solana/web3.js': 'solanaWeb3',
-            '@solana/spl-token': 'splToken',
+            '@safecoin/web3.js': 'solanaWeb3',
+            '@safecoin/safe-token': 'splToken',
           },
         };
         config.output = [
@@ -81,7 +81,7 @@ const config = ({ browser, format } = { browser: false }) => {
           },
         ];
         config.context = 'window';
-        config.external = ['@solana/web3.js', '@solana/spl-token'];
+        config.external = ['@safecoin/web3.js', '@safecoin/safe-token'];
         break;
       default:
         throw new Error(`Unknown format: ${format}`);

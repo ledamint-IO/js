@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import { Connection, NodeWallet } from '../../src';
 import { FEE_PAYER, NETWORK, sleep } from '../utils';
 import {
@@ -7,11 +7,11 @@ import {
   MasterEdition,
   Metadata,
   MetadataDataData,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { createMetadata } from '../../src/actions/createMetadata';
 import { createMasterEdition } from '../../src/actions/createMasterEdition';
 import { uri } from './shared';
-import { Account } from '@metaplex-foundation/mpl-core';
+import { Account } from '@leda-mint-io/lpl-core';
 
 // NOTE: testing the two together because latter effectively requires former
 describe('creatomg metadata and master edition PDAs', () => {

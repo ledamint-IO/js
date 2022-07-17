@@ -1,8 +1,8 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
-import { Auction, AuctionExtended, BidderPot } from '@metaplex-foundation/mpl-auction';
+import { Auction, AuctionExtended, BidderPot } from '@leda-mint-io/lpl-auction';
 import { TransactionsBatch } from '../utils/transactions-batch';
 import { AuctionManager, ClaimBid } from '@metaplex-foundation/mpl-metaplex';
 

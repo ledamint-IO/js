@@ -1,5 +1,5 @@
-import { Connection, PublicKey } from '@solana/web3.js';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { Connection, PublicKey } from '@safecoin/web3.js';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import { Wallet } from '../wallet';
 import {
   Edition,
@@ -7,8 +7,8 @@ import {
   MasterEdition,
   Metadata,
   MintNewEditionFromMasterEditionViaToken,
-} from '@metaplex-foundation/mpl-token-metadata';
-import { Account } from '@metaplex-foundation/mpl-core';
+} from '@leda-mint-io/lpl-token-metadata';
+import { Account } from '@leda-mint-io/lpl-core';
 import BN from 'bn.js';
 import { prepareTokenAccountAndMintTxs } from './shared';
 import { sendTransaction } from './transactions';

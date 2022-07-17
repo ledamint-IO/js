@@ -1,9 +1,9 @@
 import BN from 'bn.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
-import { Auction, AuctionExtended, BidderMetadata } from '@metaplex-foundation/mpl-auction';
+import { Auction, AuctionExtended, BidderMetadata } from '@leda-mint-io/lpl-auction';
 import { TransactionsBatch } from '../utils/transactions-batch';
 import {
   AuctionManager,
@@ -17,7 +17,7 @@ import {
   MasterEdition,
   Metadata,
   UpdatePrimarySaleHappenedViaToken,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { RedeemPrintingV2Bid } from '@metaplex-foundation/mpl-metaplex';
 import { prepareTokenAccountAndMintTxs } from './shared';
 import { getBidRedemptionPDA } from './redeemFullRightsTransferBid';

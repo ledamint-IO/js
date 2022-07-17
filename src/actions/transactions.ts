@@ -1,7 +1,7 @@
-import { Keypair, SendOptions } from '@solana/web3.js';
+import { Keypair, SendOptions } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 /** Parameters for {@link sendTransaction} **/
 export interface SendTransactionParams {

@@ -1,4 +1,4 @@
-import { NATIVE_MINT } from '@solana/spl-token';
+import { NATIVE_MINT } from '@safecoin/safe-token';
 import { Vault, VaultState } from '@metaplex-foundation/mpl-token-vault';
 
 import { sleep } from '../../utils';

@@ -1,12 +1,12 @@
 import BN from 'bn.js';
-import { NATIVE_MINT } from '@solana/spl-token';
+import { NATIVE_MINT } from '@safecoin/safe-token';
 import {
   Auction,
   PriceFloor,
   PriceFloorType,
   WinnerLimit,
   WinnerLimitType,
-} from '@metaplex-foundation/mpl-auction';
+} from '@leda-mint-io/lpl-auction';
 
 import { sleep } from '../../utils';
 import { generateConnectionAndWallet } from '../shared';

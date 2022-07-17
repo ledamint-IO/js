@@ -1,5 +1,5 @@
 import { Connection, NodeWallet, programs, actions } from '@metaplex/js';
-import { Keypair, PublicKey } from '@solana/web3.js';
+import { Keypair, PublicKey } from '@safecoin/web3.js';
 
 const { Metadata } = programs.metadata;
 const { initStore } = actions;

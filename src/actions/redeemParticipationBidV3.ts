@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { PublicKey, TransactionSignature } from '@solana/web3.js';
+import { PublicKey, TransactionSignature } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
@@ -11,8 +11,8 @@ import {
   NATIVE_MINT,
   Token,
   TOKEN_PROGRAM_ID,
-} from '@solana/spl-token';
-import { Auction, AuctionExtended, BidderMetadata } from '@metaplex-foundation/mpl-auction';
+} from '@safecoin/safe-token';
+import { Auction, AuctionExtended, BidderMetadata } from '@leda-mint-io/lpl-auction';
 import { Vault } from '@metaplex-foundation/mpl-token-vault';
 import {
   AuctionManager,
@@ -29,7 +29,7 @@ import {
   MasterEdition,
   Metadata,
   UpdatePrimarySaleHappenedViaToken,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 
 export interface RedeemParticipationBidV3Params {
   connection: Connection;

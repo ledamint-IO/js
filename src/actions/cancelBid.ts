@@ -1,5 +1,5 @@
-import { Keypair, PublicKey } from '@solana/web3.js';
-import { AccountLayout, NATIVE_MINT, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { Keypair, PublicKey } from '@safecoin/web3.js';
+import { AccountLayout, NATIVE_MINT, Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
@@ -8,11 +8,11 @@ import {
   BidderMetadata,
   BidderPot,
   CancelBid,
-} from '@metaplex-foundation/mpl-auction';
+} from '@leda-mint-io/lpl-auction';
 import { TransactionsBatch } from '../utils/transactions-batch';
 import { AuctionManager } from '@metaplex-foundation/mpl-metaplex';
 import { CreateTokenAccount } from '../transactions';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 /**
  * Parameters for {@link cancelBid}

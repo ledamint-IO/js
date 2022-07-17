@@ -1,5 +1,5 @@
-import { Keypair } from '@solana/web3.js';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Keypair } from '@safecoin/web3.js';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 interface TransactionsBatchParams {
   beforeTransactions?: Transaction[];

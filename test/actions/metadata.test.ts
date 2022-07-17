@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, MintLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Keypair, PublicKey, sendAndConfirmTransaction } from '@solana/web3.js';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, MintLayout, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
+import { Keypair, PublicKey, sendAndConfirmTransaction } from '@safecoin/web3.js';
 import { Connection } from '../../src';
 
 import {
@@ -10,10 +10,10 @@ import {
   UpdateMetadata,
   MasterEdition,
   CreateMasterEdition,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { CreateMint, CreateAssociatedTokenAccount, MintTo } from '../../src/transactions';
 import { FEE_PAYER, NETWORK } from '../utils';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 describe.skip('Metaplex transactions', () => {
   let connection: Connection;

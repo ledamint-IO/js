@@ -1,6 +1,6 @@
-import { Transaction } from '@metaplex-foundation/mpl-core';
-import { AccountLayout, NATIVE_MINT, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { Transaction } from '@leda-mint-io/lpl-core';
+import { AccountLayout, NATIVE_MINT, Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
+import { Connection, Keypair, PublicKey } from '@safecoin/web3.js';
 import { CreateTokenAccount } from '../../transactions/CreateTokenAccount';
 
 interface WrappedAccountTxs {

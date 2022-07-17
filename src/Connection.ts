@@ -1,4 +1,4 @@
-import { clusterApiUrl, Commitment, Connection as SolanaConnection } from '@solana/web3.js';
+import { clusterApiUrl, Commitment, Connection as SolanaConnection } from '@safecoin/web3.js';
 
 export enum ChainId {
   MainnetBeta = 101,

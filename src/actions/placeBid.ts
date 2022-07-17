@@ -1,6 +1,6 @@
 import BN from 'bn.js';
-import { Commitment, Keypair, PublicKey, TransactionSignature } from '@solana/web3.js';
-import { AccountLayout } from '@solana/spl-token';
+import { Commitment, Keypair, PublicKey, TransactionSignature } from '@safecoin/web3.js';
+import { AccountLayout } from '@safecoin/safe-token';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
@@ -9,7 +9,7 @@ import {
   BidderMetadata,
   BidderPot,
   PlaceBid,
-} from '@metaplex-foundation/mpl-auction';
+} from '@leda-mint-io/lpl-auction';
 import { AuctionManager } from '@metaplex-foundation/mpl-metaplex';
 import { TransactionsBatch } from '../utils/transactions-batch';
 import { getCancelBidTransactions } from './cancelBid';

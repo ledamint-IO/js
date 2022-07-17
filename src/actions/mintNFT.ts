@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import BN from 'bn.js';
 import { Connection } from '../Connection';
 import {
@@ -8,7 +8,7 @@ import {
   MasterEdition,
   Metadata,
   MetadataDataData,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { Wallet } from '../wallet';
 import { sendTransaction } from './transactions';
 import { lookup } from '../utils/metadata';

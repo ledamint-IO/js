@@ -1,4 +1,4 @@
-import { Auction, AuctionState, AuctionExtended } from '@metaplex-foundation/mpl-auction';
+import { Auction, AuctionState, AuctionExtended } from '@leda-mint-io/lpl-auction';
 import { Connection } from '../src';
 import {
   AUCTION_EXTENDED_PUBKEY,

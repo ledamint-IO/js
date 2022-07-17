@@ -1,11 +1,11 @@
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import { Connection, NodeWallet } from '../../src';
 import { mintNFT } from '../../src/actions';
 import { FEE_PAYER, NETWORK, sleep } from '../utils';
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import { Metadata } from '@leda-mint-io/lpl-token-metadata';
 import { signMetadata } from '../../src/actions/signMetadata';
 import { mockAxios200, uri } from './shared';
-import { Account } from '@metaplex-foundation/mpl-core';
+import { Account } from '@leda-mint-io/lpl-core';
 
 jest.mock('axios');
 jest.setTimeout(100000);

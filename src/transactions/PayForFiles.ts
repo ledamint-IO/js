@@ -1,11 +1,11 @@
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 import {
   PublicKey,
   SystemProgram,
   TransactionCtorFields,
   TransactionInstruction,
-} from '@solana/web3.js';
-import { config } from '@metaplex-foundation/mpl-core';
+} from '@safecoin/web3.js';
+import { config } from '@leda-mint-io/lpl-core';
 import { Buffer } from 'buffer';
 
 type PayForFilesParams = {

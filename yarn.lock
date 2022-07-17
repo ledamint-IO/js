@@ -926,6 +926,93 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leda-mint-io/js@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@leda-mint-io/js@workspace:."
+  dependencies:
+    "@commitlint/cli": ^13.2.0
+    "@commitlint/config-conventional": ^13.2.0
+    "@leda-mint-io/lpl-auction": ^0.0.2
+    "@leda-mint-io/lpl-core": ^0.0.51
+    "@metaplex-foundation/amman": ^0.0.8
+    "@metaplex-foundation/mpl-metaplex": ^0.0.5
+    "@metaplex-foundation/mpl-token-metadata": ^1.1.0
+    "@metaplex-foundation/mpl-token-vault": ^0.0.2
+    "@rollup/plugin-commonjs": ^20.0.0
+    "@rollup/plugin-json": ^4.1.0
+    "@rollup/plugin-node-resolve": ^13.0.4
+    "@rollup/plugin-replace": ^3.0.0
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+    "@semantic-release/changelog": ^6.0.0
+    "@semantic-release/git": ^10.0.0
+    "@types/async-retry": ^1.4.3
+    "@types/bs58": ^4.0.1
+    "@types/jest": ^27.0.1
+    "@types/node": ^16.9.2
+    "@typescript-eslint/eslint-plugin": ^4.30.0
+    "@typescript-eslint/parser": ^4.30.0
+    "@zerollup/ts-transform-paths": ^1.7.18
+    axios: ^0.25.0
+    bn.js: ^5.2.0
+    borsh: ^0.4.0
+    bs58: ^4.0.1
+    buffer: ^6.0.3
+    crypto-hash: ^1.3.0
+    esbuild: ^0.14.2
+    esbuild-runner: ^2.2.1
+    eslint: ^7.32.0
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-prettier: ^4.0.0
+    form-data: ^4.0.0
+    gh-pages: ^3.2.3
+    husky: ^7.0.2
+    jest: ^27.1.0
+    node-stream-zip: ^1.15.0
+    prettier: ^2.3.2
+    rimraf: ^3.0.2
+    rollup: ^2.56.3
+    rollup-plugin-terser: ^7.0.2
+    rollup-plugin-typescript2: ^0.30.0
+    rollup-plugin-visualizer: ^5.5.2
+    semantic-release: ^18.0.0
+    ts-jest: ^27.0.5
+    ts-node: ^10.2.1
+    ttypescript: ^1.5.12
+    typedoc: ^0.22.3
+    typescript: ^4.4.3
+  peerDependencies:
+    "@leda-mint-io/lpl-auction": ^0.0.2
+    "@metaplex-foundation/mpl-metaplex": ^0.0.5
+    "@metaplex-foundation/mpl-token-metadata": ^0.0.2
+    "@metaplex-foundation/mpl-token-vault": ^0.0.2
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+  languageName: unknown
+  linkType: soft
+
+"@leda-mint-io/lpl-auction@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@leda-mint-io/lpl-auction@npm:0.0.2"
+  dependencies:
+    "@leda-mint-io/lpl-core": ^0.0.51
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+  checksum: 9ccc2c25898a1197465108276715f7d73202b3a6ceca2507be8a4208cf9c1868e2d8201143fba23c110e6d5febdb42c601cadd37d76f9e3f4e4109d6441a1521
+  languageName: node
+  linkType: hard
+
+"@leda-mint-io/lpl-core@npm:^0.0.51":
+  version: 0.0.51
+  resolution: "@leda-mint-io/lpl-core@npm:0.0.51"
+  dependencies:
+    "@safecoin/safe-token": 0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+    bs58: ^4.0.1
+  checksum: f685057d3217b36e5d0c71fea97f4a6cbc481fc92a00e5b70e1dca80857a93add34039ef3521b2f67c1ccf5f7346bf4a8dfab34f0e23dcd95e58d1b4ade85439
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/amman@npm:^0.0.8":
   version: 0.0.8
   resolution: "@metaplex-foundation/amman@npm:0.0.8"
@@ -1008,72 +1095,6 @@ __metadata:
   checksum: 4543fc4142f59f447a19b26162d22c8547cb9b94cf2cc386f0d33db85fb06777d19d34792f7d63e0a9f4bb5549b2819e1f1b9cc2420af5effcdb84799dfe6616
   languageName: node
   linkType: hard
-
-"@metaplex/js@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@metaplex/js@workspace:."
-  dependencies:
-    "@commitlint/cli": ^13.2.0
-    "@commitlint/config-conventional": ^13.2.0
-    "@metaplex-foundation/amman": ^0.0.8
-    "@metaplex-foundation/mpl-auction": ^0.0.2
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@metaplex-foundation/mpl-metaplex": ^0.0.5
-    "@metaplex-foundation/mpl-token-metadata": ^1.1.0
-    "@metaplex-foundation/mpl-token-vault": ^0.0.2
-    "@rollup/plugin-commonjs": ^20.0.0
-    "@rollup/plugin-json": ^4.1.0
-    "@rollup/plugin-node-resolve": ^13.0.4
-    "@rollup/plugin-replace": ^3.0.0
-    "@semantic-release/changelog": ^6.0.0
-    "@semantic-release/git": ^10.0.0
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.30.2
-    "@types/async-retry": ^1.4.3
-    "@types/bs58": ^4.0.1
-    "@types/jest": ^27.0.1
-    "@types/node": ^16.9.2
-    "@typescript-eslint/eslint-plugin": ^4.30.0
-    "@typescript-eslint/parser": ^4.30.0
-    "@zerollup/ts-transform-paths": ^1.7.18
-    axios: ^0.25.0
-    bn.js: ^5.2.0
-    borsh: ^0.4.0
-    bs58: ^4.0.1
-    buffer: ^6.0.3
-    crypto-hash: ^1.3.0
-    esbuild: ^0.14.2
-    esbuild-runner: ^2.2.1
-    eslint: ^7.32.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-prettier: ^4.0.0
-    form-data: ^4.0.0
-    gh-pages: ^3.2.3
-    husky: ^7.0.2
-    jest: ^27.1.0
-    node-stream-zip: ^1.15.0
-    prettier: ^2.3.2
-    rimraf: ^3.0.2
-    rollup: ^2.56.3
-    rollup-plugin-terser: ^7.0.2
-    rollup-plugin-typescript2: ^0.30.0
-    rollup-plugin-visualizer: ^5.5.2
-    semantic-release: ^18.0.0
-    ts-jest: ^27.0.5
-    ts-node: ^10.2.1
-    ttypescript: ^1.5.12
-    typedoc: ^0.22.3
-    typescript: ^4.4.3
-  peerDependencies:
-    "@metaplex-foundation/mpl-auction": ^0.0.2
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@metaplex-foundation/mpl-metaplex": ^0.0.5
-    "@metaplex-foundation/mpl-token-metadata": ^0.0.2
-    "@metaplex-foundation/mpl-token-vault": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.30.2
-  languageName: unknown
-  linkType: soft
 
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
@@ -1499,6 +1520,56 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@safecoin/safe-token@npm:0.1.7-b":
+  version: 0.1.7-b
+  resolution: "@safecoin/safe-token@npm:0.1.7-b"
+  dependencies:
+    "@babel/runtime": ^7.10.5
+    "@safecoin/web3.js": ^1.21.0
+    bn.js: ^5.1.0
+    buffer: 6.0.3
+    buffer-layout: ^1.2.0
+    dotenv: 10.0.0
+  checksum: 7cb2e47a99c935c0051acf1e773e88dfb4adca67cd2349c1be9939cc5fa32875cd33a4c1815dbf4fc64df3009e9a983434404b9d9dbc72edf861009d531f779a
+  languageName: node
+  linkType: hard
+
+"@safecoin/safe-token@npm:^0.1.7-b":
+  version: 0.1.7
+  resolution: "@safecoin/safe-token@npm:0.1.7"
+  dependencies:
+    "@babel/runtime": ^7.10.5
+    "@safecoin/web3.js": ^1.21.0
+    bn.js: ^5.1.0
+    buffer: 6.0.3
+    buffer-layout: ^1.2.0
+    dotenv: 10.0.0
+  checksum: 5dc495e038ef550a6ace39d0ea9ba623d403f0dc0c0a4681e787e5d269860ad29c3b0ad4a55dcaa2fc4005ab7156aaeb06cdb3311ef9fa30edcaa81537b8fb8d
+  languageName: node
+  linkType: hard
+
+"@safecoin/web3.js@npm:^1.21.0, @safecoin/web3.js@npm:^1.29.4":
+  version: 1.29.4
+  resolution: "@safecoin/web3.js@npm:1.29.4"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@solana/buffer-layout": ^3.0.0
+    bn.js: ^5.0.0
+    borsh: ^0.4.0
+    bs58: ^4.0.1
+    buffer: 6.0.1
+    cross-fetch: ^3.1.4
+    crypto-hash: ^1.2.2
+    jayson: ^3.4.4
+    js-sha3: ^0.8.0
+    rpc-websockets: ^7.4.2
+    secp256k1: ^4.0.2
+    superstruct: ^0.14.2
+    tweetnacl: ^1.0.0
+  checksum: 842617f49ea2b04909e4d23c38ee2ff82fb1f4a1f1a7e50537e1ff9f9d960361399c9b4824646c937c71c06abfb52dc7bfbf655669e797d6982365c87dc3f282
+  languageName: node
+  linkType: hard
+
 "@semantic-release/changelog@npm:^6.0.0":
   version: 6.0.1
   resolution: "@semantic-release/changelog@npm:6.0.1"
@@ -1695,7 +1766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.30.2, @solana/web3.js@npm:^1.31.0":
+"@solana/web3.js@npm:^1.21.0, @solana/web3.js@npm:^1.31.0":
   version: 1.31.0
   resolution: "@solana/web3.js@npm:1.31.0"
   dependencies:
@@ -3229,7 +3300,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-hash@npm:^1.3.0":
+"crypto-hash@npm:^1.2.2, crypto-hash@npm:^1.3.0":
   version: 1.3.0
   resolution: "crypto-hash@npm:1.3.0"
   checksum: a3a507e0d2b18fbd2da8088a1c62d0c53c009a99bbfa6d851cac069734ffa546922fa51bdd776d006459701cdda873463e5059ece3431aca048fd99e7573d138

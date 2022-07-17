@@ -1,12 +1,12 @@
-import { Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { Connection, Keypair, PublicKey } from '@safecoin/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   MintLayout,
   Token,
   TOKEN_PROGRAM_ID,
-} from '@solana/spl-token';
+} from '@safecoin/safe-token';
 import { CreateAssociatedTokenAccount, CreateMint, MintTo } from '../../transactions';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 interface MintTxs {
   mint: Keypair;

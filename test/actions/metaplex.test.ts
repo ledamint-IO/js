@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
-import { TupleNumericType, Transaction } from '@metaplex-foundation/mpl-core';
-import { AccountLayout, NATIVE_MINT } from '@solana/spl-token';
-import { Keypair, sendAndConfirmTransaction } from '@solana/web3.js';
+import { TupleNumericType, Transaction } from '@leda-mint-io/lpl-core';
+import { AccountLayout, NATIVE_MINT } from '@safecoin/safe-token';
+import { Keypair, sendAndConfirmTransaction } from '@safecoin/web3.js';
 import BN from 'bn.js';
 import { Connection } from '../../src';
 import {
@@ -14,7 +14,7 @@ import {
   InitAuctionManagerV2,
   StartAuction,
 } from '@metaplex-foundation/mpl-metaplex';
-import { Auction } from '@metaplex-foundation/mpl-auction';
+import { Auction } from '@leda-mint-io/lpl-auction';
 import { CreateTokenAccount } from '../../src/transactions';
 import { FEE_PAYER, NETWORK, VAULT_PUBKEY } from '../utils';
 

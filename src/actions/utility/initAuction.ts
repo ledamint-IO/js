@@ -1,11 +1,11 @@
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 import {
   Auction,
   AuctionExtended,
   CreateAuction,
   CreateAuctionArgs,
-} from '@metaplex-foundation/mpl-auction';
-import { PublicKey, TransactionSignature } from '@solana/web3.js';
+} from '@leda-mint-io/lpl-auction';
+import { PublicKey, TransactionSignature } from '@safecoin/web3.js';
 
 import { Wallet } from '../../wallet';
 import { Connection } from '../../Connection';

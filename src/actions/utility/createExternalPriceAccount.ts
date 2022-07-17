@@ -11,9 +11,9 @@ import {
   SystemProgram,
   TransactionCtorFields,
   TransactionSignature,
-} from '@solana/web3.js';
-import { NATIVE_MINT } from '@solana/spl-token';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+} from '@safecoin/web3.js';
+import { NATIVE_MINT } from '@safecoin/safe-token';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 import { Wallet } from '../../wallet';
 import { Connection } from '../../Connection';

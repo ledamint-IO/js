@@ -1,4 +1,4 @@
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import { Connection, NodeWallet } from '../../src';
 import { initStore, initStoreV2 } from '../../src/actions';
 import { FEE_PAYER, NETWORK } from '../utils';

@@ -1,11 +1,11 @@
 import BN from 'bn.js';
-import { AccountLayout } from '@solana/spl-token';
+import { AccountLayout } from '@safecoin/safe-token';
 import {
   Vault,
   SafetyDepositBox,
   AddTokenToInactiveVault,
 } from '@metaplex-foundation/mpl-token-vault';
-import { Connection, TransactionSignature, PublicKey, Keypair } from '@solana/web3.js';
+import { Connection, TransactionSignature, PublicKey, Keypair } from '@safecoin/web3.js';
 
 import { Wallet } from '../wallet';
 import { createApproveTxs } from './shared';

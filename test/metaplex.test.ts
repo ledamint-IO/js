@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { Connection } from '../src';
-import { Auction } from '@metaplex-foundation/mpl-auction';
+import { Auction } from '@leda-mint-io/lpl-auction';
 import {
   Store,
   MetaplexKey,

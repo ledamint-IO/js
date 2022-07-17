@@ -1,6 +1,6 @@
 {
   "packageManager": "yarn@3.1.1",
-  "name": "@metaplex/js",
+  "name": "@leda-mint-io/js",
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
@@ -49,13 +49,13 @@
     "link-mpl": "yarn link ../metaplex-program-library --private -r -A"
   },
   "dependencies": {
-    "@metaplex-foundation/mpl-auction": "^0.0.2",
-    "@metaplex-foundation/mpl-core": "^0.0.2",
+    "@leda-mint-io/lpl-auction": "^0.0.2",
+    "@leda-mint-io/lpl-core": "^0.0.51",
     "@metaplex-foundation/mpl-metaplex": "^0.0.5",
-    "@metaplex-foundation/mpl-token-metadata": "^1.1.0",
+    "@leda-mint-io/lpl-token-metadata": "^1.2.52",
     "@metaplex-foundation/mpl-token-vault": "^0.0.2",
-    "@solana/spl-token": "^0.1.8",
-    "@solana/web3.js": "^1.30.2",
+    "@safecoin/safe-token": "^0.1.7-b",
+    "@safecoin/web3.js": "^1.29.4",
     "@types/bs58": "^4.0.1",
     "axios": "^0.25.0",
     "bn.js": "^5.2.0",
@@ -66,13 +66,12 @@
     "form-data": "^4.0.0"
   },
   "peerDependencies": {
-    "@metaplex-foundation/mpl-auction": "^0.0.2",
-    "@metaplex-foundation/mpl-core": "^0.0.2",
+    "@leda-mint-io/lpl-auction": "^0.0.2",
     "@metaplex-foundation/mpl-metaplex": "^0.0.5",
-    "@metaplex-foundation/mpl-token-metadata": "^0.0.2",
+    "@leda-mint-io/lpl-token-metadata": "^0.0.2",
     "@metaplex-foundation/mpl-token-vault": "^0.0.2",
-    "@solana/spl-token": "^0.1.8",
-    "@solana/web3.js": "^1.30.2"
+    "@safecoin/safe-token": "^0.1.7-b",
+    "@safecoin/web3.js": "^1.29.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.2.0",

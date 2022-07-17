@@ -1,7 +1,7 @@
-import { Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, TransactionCtorFields } from '@solana/web3.js';
+import { Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
+import { PublicKey, TransactionCtorFields } from '@safecoin/web3.js';
 import BN from 'bn.js';
-import { Transaction } from '@metaplex-foundation/mpl-core';
+import { Transaction } from '@leda-mint-io/lpl-core';
 
 type MintToParams = {
   mint: PublicKey;

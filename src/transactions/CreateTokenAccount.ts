@@ -1,6 +1,6 @@
-import { Transaction } from '@metaplex-foundation/mpl-core';
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, SystemProgram, TransactionCtorFields } from '@solana/web3.js';
+import { Transaction } from '@leda-mint-io/lpl-core';
+import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
+import { PublicKey, SystemProgram, TransactionCtorFields } from '@safecoin/web3.js';
 
 type CreateTokenAccountParams = {
   newAccountPubkey: PublicKey;

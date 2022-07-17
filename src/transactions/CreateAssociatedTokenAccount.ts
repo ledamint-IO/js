@@ -1,12 +1,12 @@
-import { Transaction } from '@metaplex-foundation/mpl-core';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { Transaction } from '@leda-mint-io/lpl-core';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import {
   PublicKey,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   TransactionCtorFields,
   TransactionInstruction,
-} from '@solana/web3.js';
+} from '@safecoin/web3.js';
 import { Buffer } from 'buffer';
 
 type CreateAssociatedTokenAccountParams = {

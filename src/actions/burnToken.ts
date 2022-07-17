@@ -1,9 +1,9 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import { Wallet } from '../wallet';
 import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
-import { Transaction } from '@metaplex-foundation/mpl-core';
-import { Token, TOKEN_PROGRAM_ID, u64 } from '@solana/spl-token';
+import { Transaction } from '@leda-mint-io/lpl-core';
+import { Token, TOKEN_PROGRAM_ID, u64 } from '@safecoin/safe-token';
 
 /** Parameters for {@link burnToken} **/
 export interface BurnTokenParams {
