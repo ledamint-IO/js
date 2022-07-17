@@ -1,4 +1,4 @@
-import type { Commitment, PublicKey } from '@solana/web3.js';
+import type { Commitment, PublicKey } from '@safecoin/web3.js';
 import { Metaplex } from '@/Metaplex';
 import { Operation, useOperation, OperationHandler } from '@/types';
 import { toToken, Token } from './Token';

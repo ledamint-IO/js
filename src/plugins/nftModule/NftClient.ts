@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import { Task } from '@/utils';
 import { LazyMetadata, Metadata } from './Metadata';

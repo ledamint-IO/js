@@ -1,4 +1,4 @@
-import type { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@safecoin/web3.js';
 import { amount, Amount, BigNumber, Pda, toBigNumber } from '@/types';
 import { assert, Option } from '@/utils';
 import { TokenAccount } from './accounts';

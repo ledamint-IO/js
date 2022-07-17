@@ -3,8 +3,8 @@ import {
   ACCOUNT_SIZE,
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
-} from '@solana/spl-token';
-import { ConfirmOptions, PublicKey } from '@solana/web3.js';
+} from '@safecoin/safe-token';
+import { ConfirmOptions, PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import { Operation, OperationHandler, Signer, useOperation } from '@/types';
 import { DisposableScope, TransactionBuilder } from '@/utils';

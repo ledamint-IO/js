@@ -1,9 +1,9 @@
-import { ConfirmOptions, Keypair, PublicKey } from '@solana/web3.js';
+import { ConfirmOptions, Keypair, PublicKey } from '@safecoin/web3.js';
 import {
   createInitializeCandyMachineInstruction,
   createSetCollectionInstruction,
   Creator,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import { Metaplex } from '@/Metaplex';
 import {
   Operation,

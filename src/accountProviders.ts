@@ -2,7 +2,7 @@
 import {
   CandyMachine,
   CollectionPDA,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   CollectionAuthorityRecord,
   Edition,
@@ -11,7 +11,7 @@ import {
   Metadata,
   ReservationListV2,
   UseAuthorityRecord,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 
 export const accountProviders = {
   CandyMachine,

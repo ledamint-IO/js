@@ -1,8 +1,8 @@
-import type { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@safecoin/web3.js';
 import {
   CandyMachineData,
   configLineBeet,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import { CONFIG_ARRAY_START, CONFIG_LINE_SIZE } from './constants';
 import { CandyMachineItem } from './CandyMachine';
 import { removeEmptyChars } from '@/utils';

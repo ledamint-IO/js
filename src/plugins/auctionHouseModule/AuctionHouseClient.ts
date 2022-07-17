@@ -1,7 +1,7 @@
 import { Metaplex } from '@/Metaplex';
 import { Signer, toDateTime } from '@/types';
 import { Task } from '@/utils';
-import { Commitment, PublicKey } from '@solana/web3.js';
+import { Commitment, PublicKey } from '@safecoin/web3.js';
 import { AuctionHouse } from './AuctionHouse';
 import {
   CreateListingInput,

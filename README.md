@@ -6,7 +6,7 @@ Please note that this SDK has been re-implemented from scratch and is still in a
 
 ## Installation
 ```sh
-npm install @metaplex-foundation/js @solana/web3.js
+npm install @metaplex-foundation/js @safecoin/web3.js
 ```
 
 🔥 **Pro Tip**: Check out our examples and starter kits on the ["JS Examples" repository](https://github.com/metaplex-foundation/js-examples).
@@ -14,11 +14,11 @@ npm install @metaplex-foundation/js @solana/web3.js
 ## Setup
 The entry point to the JavaScript SDK is a `Metaplex` instance that will give you access to its API.
 
-It accepts a `Connection` instance from `@solana/web3.js` that will be used to communicate with the cluster.
+It accepts a `Connection` instance from `@safecoin/web3.js` that will be used to communicate with the cluster.
 
 ```ts
 import { Metaplex } from "@metaplex-foundation/js";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { Connection, clusterApiUrl } from "@safecoin/web3.js";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const metaplex = new Metaplex(connection);
@@ -28,7 +28,7 @@ On top of that, you can customise who the SDK should interact on behalf of and w
 
 ```ts
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
-import { Connection, clusterApiUrl, Keypair } from "@solana/web3.js";
+import { Connection, clusterApiUrl, Keypair } from "@safecoin/web3.js";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const wallet = Keypair.generate();
@@ -438,7 +438,7 @@ The `keypairIdentity` driver accepts a `Keypair` object as a parameter. This is 
 
 ```ts
 import { keypairIdentity } from "@metaplex-foundation/js";
-import { Keypair } from "@solana/web3.js";
+import { Keypair } from "@safecoin/web3.js";
 
 // Load a local keypair.
 const keypairFile = fs.readFileSync('/Users/username/.config/solana/id.json');

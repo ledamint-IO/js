@@ -2,7 +2,7 @@ import { MetaplexError, MetaplexErrorInputWithoutSource } from '@/errors';
 import { CandyMachineItem, EndSettings } from './CandyMachine';
 import { BigNumber, DateTime, formatDateTime } from '@/types';
 import { Option } from '@/utils';
-import { EndSettingType } from '@metaplex-foundation/mpl-candy-machine';
+import { EndSettingType } from '@leda-mint-io/lpl-candy-machine';
 
 export class CandyMachineError extends MetaplexError {
   constructor(input: MetaplexErrorInputWithoutSource) {

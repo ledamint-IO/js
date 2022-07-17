@@ -1,4 +1,4 @@
-import { Creator } from '@metaplex-foundation/mpl-token-metadata';
+import { Creator } from '@leda-mint-io/lpl-token-metadata';
 import { assert } from '@/utils';
 import {
   MAX_CREATOR_LIMIT,
@@ -18,7 +18,7 @@ import {
 import {
   ConfigLine,
   EndSettingType,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import { BigNumber, now, Signer, toBigNumber } from '@/types';
 
 export const assertName = (name: string) => {

@@ -1,10 +1,10 @@
 import test from 'tape';
 import spok, { Specifications } from 'spok';
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import {
   EndSettingType,
   WhitelistMintMode,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   amman,
   assertThrows,

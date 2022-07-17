@@ -1,4 +1,4 @@
-import { ConfirmOptions, PublicKey } from '@solana/web3.js';
+import { ConfirmOptions, PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import {
   Amount,
@@ -11,7 +11,7 @@ import {
 } from '@/types';
 import { TransactionBuilder } from '@/utils';
 import { SendAndConfirmTransactionResponse } from '../rpcModule';
-import { createTransferCheckedInstruction } from '@solana/spl-token';
+import { createTransferCheckedInstruction } from '@safecoin/safe-token';
 import { isMint, Mint } from './Mint';
 import { findAssociatedTokenAccountPda } from './pdas';
 import { TokenProgram } from './program';

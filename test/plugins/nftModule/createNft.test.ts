@@ -1,7 +1,7 @@
 import test, { Test } from 'tape';
 import spok, { Specifications } from 'spok';
-import { Keypair } from '@solana/web3.js';
-import { UseMethod } from '@metaplex-foundation/mpl-token-metadata';
+import { Keypair } from '@safecoin/web3.js';
+import { UseMethod } from '@leda-mint-io/lpl-token-metadata';
 import { JsonMetadata, toMetaplexFile, Nft, toBigNumber } from '@/index';
 import {
   metaplex,

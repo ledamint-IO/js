@@ -1,7 +1,7 @@
 import {
   EndSettingType,
   WhitelistMintMode,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   Creator,
   DateTimeString,

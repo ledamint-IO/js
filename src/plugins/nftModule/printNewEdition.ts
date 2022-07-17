@@ -1,4 +1,4 @@
-import { ConfirmOptions, Keypair, PublicKey } from '@solana/web3.js';
+import { ConfirmOptions, Keypair, PublicKey } from '@safecoin/web3.js';
 import { Metaplex } from '@/Metaplex';
 import {
   findEditionMarkerPda,
@@ -27,7 +27,7 @@ import { NftOriginalEdition, toNftOriginalEdition } from './NftEdition';
 import {
   createMintNewEditionFromMasterEditionViaTokenInstruction,
   createMintNewEditionFromMasterEditionViaVaultProxyInstruction,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 
 // -----------------
 // Operation

@@ -1,4 +1,4 @@
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@safecoin/web3.js';
 import BN from 'bn.js';
 import { CurrencyMismatchError, UnexpectedCurrencyError } from '@/errors';
 import { BigNumber, BigNumberValues, toBigNumber } from './BigNumber';

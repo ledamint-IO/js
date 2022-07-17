@@ -1,5 +1,5 @@
-import type { ConfirmOptions } from '@solana/web3.js';
-import { createAddConfigLinesInstruction } from '@metaplex-foundation/mpl-candy-machine';
+import type { ConfirmOptions } from '@safecoin/web3.js';
+import { createAddConfigLinesInstruction } from '@leda-mint-io/lpl-candy-machine';
 import {
   BigNumber,
   Operation,

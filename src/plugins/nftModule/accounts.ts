@@ -5,7 +5,7 @@ import {
   MasterEditionV1,
   MasterEditionV2,
   Metadata,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import {
   Account,
   AccountParser,

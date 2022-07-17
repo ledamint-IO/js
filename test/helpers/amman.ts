@@ -2,8 +2,8 @@ import { Amman } from '@metaplex-foundation/amman-client';
 import {
   PROGRAM_ADDRESS as TOKEN_METADATA_ADDRESS,
   cusper as cusperTokenMetadata,
-} from '@metaplex-foundation/mpl-token-metadata';
-import { TransactionError } from '@solana/web3.js';
+} from '@leda-mint-io/lpl-token-metadata';
+import { TransactionError } from '@safecoin/web3.js';
 import { logDebug } from '../../src/utils/log';
 
 export const amman = Amman.instance({

@@ -1,10 +1,10 @@
-import { ConfirmOptions, PublicKey } from '@solana/web3.js';
+import { ConfirmOptions, PublicKey } from '@safecoin/web3.js';
 import {
   Collection,
   createUpdateMetadataAccountV2Instruction,
   UpdateMetadataAccountArgsV2,
   Uses,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import {
   useOperation,
   Operation,

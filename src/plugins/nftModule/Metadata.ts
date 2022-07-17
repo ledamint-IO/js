@@ -1,9 +1,9 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import {
   Collection,
   TokenStandard,
   UseMethod,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 import { amount, BigNumber, Creator, Pda, toBigNumber } from '@/types';
 import { JsonMetadata } from '../nftModule';
 import { assert, Option, removeEmptyChars } from '@/utils';

@@ -5,11 +5,11 @@ import {
   SYSVAR_CLOCK_PUBKEY,
   SYSVAR_INSTRUCTIONS_PUBKEY,
   SYSVAR_SLOT_HASHES_PUBKEY,
-} from '@solana/web3.js';
+} from '@safecoin/web3.js';
 import {
   createMintNftInstruction,
   createSetCollectionDuringMintInstruction,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   assertAccountExists,
   Operation,

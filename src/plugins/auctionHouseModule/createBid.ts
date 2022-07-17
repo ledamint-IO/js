@@ -1,4 +1,4 @@
-import { ConfirmOptions } from '@solana/web3.js';
+import { ConfirmOptions } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import { useOperation, Operation, OperationHandler } from '@/types';
 import { TransactionBuilder } from '@/utils';

@@ -1,7 +1,7 @@
 import {
   CandyMachine,
   CollectionPDA,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   Account,
   getAccountParsingAndAssertingFunction,

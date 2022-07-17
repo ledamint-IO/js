@@ -1,4 +1,4 @@
-import { ConfirmOptions, Keypair, PublicKey } from '@solana/web3.js';
+import { ConfirmOptions, Keypair, PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import {
   isSigner,

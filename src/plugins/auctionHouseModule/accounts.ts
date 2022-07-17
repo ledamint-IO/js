@@ -1,7 +1,7 @@
 import {
   AuctionHouse,
   ListingReceipt,
-} from '@metaplex-foundation/mpl-auction-house';
+} from '@leda-mint-io/lpl-auction-house';
 import {
   Account,
   getAccountParsingAndAssertingFunction,

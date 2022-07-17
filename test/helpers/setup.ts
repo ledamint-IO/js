@@ -1,4 +1,4 @@
-import { Commitment, Connection, Keypair } from '@solana/web3.js';
+import { Commitment, Connection, Keypair } from '@safecoin/web3.js';
 import { LOCALHOST } from '@metaplex-foundation/amman-client';
 import {
   Metaplex,

@@ -14,8 +14,8 @@ const programIds = {
   auction: 'auctxRXPeJoc4817jDhf4HbjnhEcr1cCXenosMhK5R8',
   metaplex: 'p1exdMJcjVao65QdewkaZRUnU6VPSXhus9n2GzWfh98',
   fixedPriceSaleToken: 'SaLeTjyUa5wXHnGuewUSyJ5JWZaHwz3TxqUntCE9czo',
-  candyMachine: 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ',
-  auctionHouse: 'hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk',
+  candyMachine: 'CaNucwHEE2Mc7CPMSbNkrqPEx2iDoMs1uCDtS4mPdDq7',
+  auctionHouse: 'Co8pmAyxUyCwep4zhnPWzkL6fwvPPHU59r1t5eM6gXjZ',
 };
 
 const programs = [

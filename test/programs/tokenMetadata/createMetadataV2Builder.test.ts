@@ -1,5 +1,5 @@
 import test, { Test } from 'tape';
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import {
   findEditionPda,
   findMetadataPda,
@@ -10,7 +10,7 @@ import { metaplex, killStuckProcess, amman } from '../../helpers';
 import {
   createCreateMasterEditionV3Instruction,
   createCreateMetadataAccountV2Instruction,
-} from '@metaplex-foundation/mpl-token-metadata';
+} from '@leda-mint-io/lpl-token-metadata';
 
 killStuckProcess();
 

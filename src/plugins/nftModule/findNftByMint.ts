@@ -1,4 +1,4 @@
-import { Commitment, PublicKey } from '@solana/web3.js';
+import { Commitment, PublicKey } from '@safecoin/web3.js';
 import { Metaplex } from '@/Metaplex';
 import { findMasterEditionV2Pda, findMetadataPda } from './pdas';
 import { toMetadataAccount, toOriginalOrPrintEditionAccount } from './accounts';

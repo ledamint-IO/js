@@ -1,4 +1,4 @@
-import { Commitment } from '@solana/web3.js';
+import { Commitment } from '@safecoin/web3.js';
 import { Metaplex } from '@/Metaplex';
 import { Operation, useOperation, OperationHandler } from '@/types';
 import { DisposableScope } from '@/utils';

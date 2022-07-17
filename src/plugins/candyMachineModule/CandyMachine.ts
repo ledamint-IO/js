@@ -1,9 +1,9 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import {
   CandyMachineData,
   EndSettingType,
   WhitelistMintMode,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   Amount,
   BigNumber,

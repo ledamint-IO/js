@@ -1,5 +1,5 @@
-import { createInitializeMintInstruction, MINT_SIZE } from '@solana/spl-token';
-import { ConfirmOptions, Keypair, PublicKey } from '@solana/web3.js';
+import { createInitializeMintInstruction, MINT_SIZE } from '@safecoin/safe-token';
+import { ConfirmOptions, Keypair, PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import { Operation, OperationHandler, Signer, useOperation } from '@/types';
 import { DisposableScope, Option, TransactionBuilder } from '@/utils';

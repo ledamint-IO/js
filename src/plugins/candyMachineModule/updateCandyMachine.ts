@@ -1,11 +1,11 @@
 import isEqual from 'lodash.isequal';
-import type { ConfirmOptions, PublicKey } from '@solana/web3.js';
+import type { ConfirmOptions, PublicKey } from '@safecoin/web3.js';
 import {
   createRemoveCollectionInstruction,
   createSetCollectionInstruction,
   createUpdateAuthorityInstruction,
   createUpdateCandyMachineInstruction,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 import {
   assertSameCurrencies,
   Operation,

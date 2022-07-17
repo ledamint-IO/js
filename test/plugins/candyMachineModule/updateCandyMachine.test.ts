@@ -17,11 +17,11 @@ import {
   toUniformCreators,
 } from '@/index';
 import { createCandyMachine, create32BitsHash } from './helpers';
-import { Keypair } from '@solana/web3.js';
+import { Keypair } from '@safecoin/web3.js';
 import {
   EndSettingType,
   WhitelistMintMode,
-} from '@metaplex-foundation/mpl-candy-machine';
+} from '@leda-mint-io/lpl-candy-machine';
 
 killStuckProcess();
 

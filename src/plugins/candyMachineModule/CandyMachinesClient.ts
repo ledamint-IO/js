@@ -1,4 +1,4 @@
-import type { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
 import { CandyMachinesBuildersClient } from './CandyMachinesBuildersClient';
 import { LazyNft, Nft } from '../nftModule';

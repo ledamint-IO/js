@@ -1,5 +1,5 @@
-import { ConfirmOptions, PublicKey } from '@solana/web3.js';
-import { createMintToInstruction } from '@solana/spl-token';
+import { ConfirmOptions, PublicKey } from '@safecoin/web3.js';
+import { createMintToInstruction } from '@safecoin/safe-token';
 import type { Metaplex } from '@/Metaplex';
 import {
   Amount,

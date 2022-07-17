@@ -1,4 +1,4 @@
-import { cusper } from '@metaplex-foundation/mpl-token-metadata';
+import { cusper } from '@leda-mint-io/lpl-token-metadata';
 import type { Metaplex } from '@/Metaplex';
 import { TokenMetadataProgram } from './program';
 import { TokenMetadataGpaBuilder } from './gpaBuilders';

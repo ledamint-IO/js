@@ -1,4 +1,4 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import type { Metaplex } from '@/Metaplex';
 import type { MetaplexPlugin } from '@/types';
 import { TokenClient } from './TokenClient';

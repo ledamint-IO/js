@@ -1,4 +1,4 @@
-import type { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@safecoin/web3.js';
 import { Pda } from '@/types';
 import { AuctionHouseAccount } from './accounts';
 import { assert } from '@/utils';
