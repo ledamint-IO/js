@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { Transaction } from '@leda-mint-io/lpl-core';
 import { Keypair, PublicKey, TransactionSignature } from '@safecoin/web3.js';
 import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
-import { ActivateVault, CombineVault, Vault } from '@metaplex-foundation/mpl-token-vault';
+import { ActivateVault, CombineVault, Vault } from '@leda-mint-io/lpl-token-vault';
 
 import { Wallet } from '../../wallet';
 import { Connection } from '../../Connection';

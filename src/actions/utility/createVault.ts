@@ -1,6 +1,6 @@
 import { Transaction } from '@leda-mint-io/lpl-core';
 import { AccountLayout, MintLayout, NATIVE_MINT } from '@safecoin/safe-token';
-import { InitVault, Vault, VaultProgram } from '@metaplex-foundation/mpl-token-vault';
+import { InitVault, Vault, VaultProgram } from '@leda-mint-io/lpl-token-vault';
 import { Keypair, PublicKey, SystemProgram, TransactionSignature } from '@safecoin/web3.js';
 
 import { Wallet } from '../../wallet';

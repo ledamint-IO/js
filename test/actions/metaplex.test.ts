@@ -13,7 +13,7 @@ import {
   AuctionWinnerTokenTypeTracker,
   InitAuctionManagerV2,
   StartAuction,
-} from '@metaplex-foundation/mpl-metaplex';
+} from '@leda-mint-io/lpl-ledamint';
 import { Auction } from '@leda-mint-io/lpl-auction';
 import { CreateTokenAccount } from '../../src/transactions';
 import { FEE_PAYER, NETWORK, VAULT_PUBKEY } from '../utils';

@@ -10,7 +10,7 @@ import {
   CancelBid,
 } from '@leda-mint-io/lpl-auction';
 import { TransactionsBatch } from '../utils/transactions-batch';
-import { AuctionManager } from '@metaplex-foundation/mpl-metaplex';
+import { AuctionManager } from '@leda-mint-io/lpl-ledamint';
 import { CreateTokenAccount } from '../transactions';
 import { Transaction } from '@leda-mint-io/lpl-core';
 

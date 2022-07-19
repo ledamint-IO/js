@@ -4,7 +4,7 @@ import { Connection } from '../Connection';
 import { sendTransaction } from './transactions';
 import { Auction, AuctionExtended, BidderPot } from '@leda-mint-io/lpl-auction';
 import { TransactionsBatch } from '../utils/transactions-batch';
-import { AuctionManager, ClaimBid } from '@metaplex-foundation/mpl-metaplex';
+import { AuctionManager, ClaimBid } from '@leda-mint-io/lpl-ledamint';
 
 /**
  * Parameters for {@link claimBid}

@@ -14,15 +14,16 @@
   ],
   "version": "4.12.0",
   "license": "MIT",
-  "description": "Metaplex JavaScript API",
+  "description": "Ledamint JavaScript SDK",
   "keywords": [
     "nft",
+    "ledamint",
     "metaplex",
-    "solana",
-    "blockchain"
+    "blockchain",
+    "safecoin"
   ],
-  "author": "Metaplex Maintainers <contact@metaplex.com>",
-  "homepage": "https://metaplex.com",
+  "author": "Ledamint Maintainers <contact@metaplex.com>",
+  "homepage": "https://ledamint.io",
   "repository": {
     "url": "https://github.com/metaplex/js.git"
   },
@@ -51,9 +52,9 @@
   "dependencies": {
     "@leda-mint-io/lpl-auction": "^0.0.2",
     "@leda-mint-io/lpl-core": "^0.0.51",
-    "@metaplex-foundation/mpl-metaplex": "^0.0.5",
+    "@leda-mint-io/lpl-ledamint": "^0.0.1",
     "@leda-mint-io/lpl-token-metadata": "^1.2.52",
-    "@metaplex-foundation/mpl-token-vault": "^0.0.2",
+    "@leda-mint-io/lpl-token-vault": "^0.0.191",
     "@safecoin/safe-token": "^0.1.7-b",
     "@safecoin/web3.js": "^1.29.4",
     "@types/bs58": "^4.0.1",
@@ -67,9 +68,9 @@
   },
   "peerDependencies": {
     "@leda-mint-io/lpl-auction": "^0.0.2",
-    "@metaplex-foundation/mpl-metaplex": "^0.0.5",
+    "@leda-mint-io/lpl-ledamint": "^0.0.1",
     "@leda-mint-io/lpl-token-metadata": "^0.0.2",
-    "@metaplex-foundation/mpl-token-vault": "^0.0.2",
+    "@leda-mint-io/lpl-token-vault": "^0.0.2",
     "@safecoin/safe-token": "^0.1.7-b",
     "@safecoin/web3.js": "^1.29.4"
   },

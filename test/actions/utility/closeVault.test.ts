@@ -1,5 +1,5 @@
 import { NATIVE_MINT } from '@safecoin/safe-token';
-import { Vault, VaultState } from '@metaplex-foundation/mpl-token-vault';
+import { Vault, VaultState } from '@leda-mint-io/lpl-token-vault';
 
 import { sleep } from '../../utils';
 import { generateConnectionAndWallet } from '../shared';

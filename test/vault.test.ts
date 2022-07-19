@@ -1,6 +1,6 @@
 import { Connection } from '../src';
 import { NETWORK, VAULT_PUBKEY } from './utils';
-import { Vault, VaultKey } from '@metaplex-foundation/mpl-token-vault';
+import { Vault, VaultKey } from '@leda-mint-io/lpl-token-vault';
 
 describe('Vault', () => {
   let connection: Connection;

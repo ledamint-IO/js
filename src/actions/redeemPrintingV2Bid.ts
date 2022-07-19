@@ -9,8 +9,8 @@ import {
   AuctionManager,
   PrizeTrackingTicket,
   SafetyDepositConfig,
-} from '@metaplex-foundation/mpl-metaplex';
-import { Vault } from '@metaplex-foundation/mpl-token-vault';
+} from '@leda-mint-io/lpl-ledamint';
+import { Vault } from '@leda-mint-io/lpl-token-vault';
 import {
   Edition,
   EditionMarker,
@@ -18,7 +18,7 @@ import {
   Metadata,
   UpdatePrimarySaleHappenedViaToken,
 } from '@leda-mint-io/lpl-token-metadata';
-import { RedeemPrintingV2Bid } from '@metaplex-foundation/mpl-metaplex';
+import { RedeemPrintingV2Bid } from '@leda-mint-io/lpl-ledamint';
 import { prepareTokenAccountAndMintTxs } from './shared';
 import { getBidRedemptionPDA } from './redeemFullRightsTransferBid';
 

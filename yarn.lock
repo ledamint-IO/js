@@ -725,6 +725,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@j0nnyboi/mpl-core@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@j0nnyboi/mpl-core@npm:0.0.1"
+  dependencies:
+    "@safecoin/web3.js": ^1.29.3
+    bs58: ^4.0.1
+  checksum: 929c65ec2c7e6899e724d8263be314509629e24d44a898fdd911afefd88b4144b99dfde7cfbcf9359a180427791a24c5b07e133b4b3491006b6848daf6c37901
+  languageName: node
+  linkType: hard
+
 "@jest/console@npm:^27.4.6":
   version: 27.4.6
   resolution: "@jest/console@npm:27.4.6"
@@ -934,10 +944,10 @@ __metadata:
     "@commitlint/config-conventional": ^13.2.0
     "@leda-mint-io/lpl-auction": ^0.0.2
     "@leda-mint-io/lpl-core": ^0.0.51
+    "@leda-mint-io/lpl-ledamint": ^0.0.1
+    "@leda-mint-io/lpl-token-metadata": ^1.2.52
+    "@leda-mint-io/lpl-token-vault": ^0.0.191
     "@metaplex-foundation/amman": ^0.0.8
-    "@metaplex-foundation/mpl-metaplex": ^0.0.5
-    "@metaplex-foundation/mpl-token-metadata": ^1.1.0
-    "@metaplex-foundation/mpl-token-vault": ^0.0.2
     "@rollup/plugin-commonjs": ^20.0.0
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": ^13.0.4
@@ -983,9 +993,9 @@ __metadata:
     typescript: ^4.4.3
   peerDependencies:
     "@leda-mint-io/lpl-auction": ^0.0.2
-    "@metaplex-foundation/mpl-metaplex": ^0.0.5
-    "@metaplex-foundation/mpl-token-metadata": ^0.0.2
-    "@metaplex-foundation/mpl-token-vault": ^0.0.2
+    "@leda-mint-io/lpl-ledamint": ^0.0.1
+    "@leda-mint-io/lpl-token-metadata": ^0.0.2
+    "@leda-mint-io/lpl-token-vault": ^0.0.2
     "@safecoin/safe-token": ^0.1.7-b
     "@safecoin/web3.js": ^1.29.4
   languageName: unknown
@@ -1013,6 +1023,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leda-mint-io/lpl-ledamint@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@leda-mint-io/lpl-ledamint@npm:0.0.1"
+  dependencies:
+    "@leda-mint-io/lpl-auction": ^0.0.2
+    "@leda-mint-io/lpl-core": ^0.0.51
+    "@leda-mint-io/lpl-token-metadata": ^1.2.52
+    "@leda-mint-io/lpl-token-vault": ^0.0.191
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+  checksum: 6fc0f3624566bc58fd598853ab3b6e67aff87ffc6f4ceaa8970bbc04a83ab78a0ccaca718b9cf5ddacdc6d9a298b8d7faf17c6f62b5760753c1dc22e1ce68806
+  languageName: node
+  linkType: hard
+
+"@leda-mint-io/lpl-token-metadata@npm:^1.2.52":
+  version: 1.2.52
+  resolution: "@leda-mint-io/lpl-token-metadata@npm:1.2.52"
+  dependencies:
+    "@j0nnyboi/mpl-core": ^0.0.1
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+  checksum: 25237c1bce0f9198aebaa57597e524be6ac7f994d6f18c5e7cde2bead93220841d238ebf41b6544c0009e3336a12955135f3bd6ee496ce45f7c05ce0c0362294
+  languageName: node
+  linkType: hard
+
+"@leda-mint-io/lpl-token-vault@npm:^0.0.191":
+  version: 0.0.191
+  resolution: "@leda-mint-io/lpl-token-vault@npm:0.0.191"
+  dependencies:
+    "@leda-mint-io/lpl-core": ^0.0.51
+    "@safecoin/safe-token": ^0.1.7-b
+    "@safecoin/web3.js": ^1.29.4
+  checksum: 3dc760479d9f67845f85929a8232b55f5db4954828d56688ca2aae32ac31fd3a217a2addaf7239aabc78199f3d29c27fb94a786959333a2fd10d0fdfd44c0fe8
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/amman@npm:^0.0.8":
   version: 0.0.8
   resolution: "@metaplex-foundation/amman@npm:0.0.8"
@@ -1025,74 +1071,6 @@ __metadata:
   bin:
     amman: dist/cli/amman.js
   checksum: 6b9c0974fc6bd259ba30c5f850a5a32b97afb91e2234270b5b42531a3ec831c6d0a896ffb2f1be7108a3cccc079f55d30cf3926c0170dabf767ca998a8e1c2b7
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-auction@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@metaplex-foundation/mpl-auction@npm:0.0.2"
-  dependencies:
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.31.0
-  checksum: bb8844835a6fc4313c77ea744c7a1feaa732c134098433d34f37ef5de76ea7717a710d03d6b4bdb3ab33a25b31b081ec1a6e54cef8c669c4cf0ae6208334e960
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-core@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@metaplex-foundation/mpl-core@npm:0.0.2"
-  dependencies:
-    "@solana/web3.js": ^1.31.0
-    bs58: ^4.0.1
-  checksum: f74ad09538dbd8b567c349724310ed3ca1e3c9d7e65992ea32077294b09791cd246ab2ac0c29c0a8ed00aaccb6858dbb0fffc55e7e788da7c418f2ed094a1d9a
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-metaplex@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@metaplex-foundation/mpl-metaplex@npm:0.0.5"
-  dependencies:
-    "@metaplex-foundation/mpl-auction": ^0.0.2
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@metaplex-foundation/mpl-token-metadata": ^0.0.2
-    "@metaplex-foundation/mpl-token-vault": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.31.0
-  checksum: 749be4932dcfe3f5c48cc1ac194e1ee92ee92f01359699d53abf755937ab3e10026a06c68ae76924bfb4828ae24c8f378ea9fffabe98a39df353289cd6e5c3d6
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-token-metadata@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@metaplex-foundation/mpl-token-metadata@npm:0.0.2"
-  dependencies:
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.31.0
-  checksum: 03064927d289cd3de12b238c233cb06ce7476338b7bf203e5c02828048d0e51c438ba90c9151d24c379618270cfcd05cee327ca9dc7b100d1108c4301ad3388b
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-token-metadata@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@metaplex-foundation/mpl-token-metadata@npm:1.1.0"
-  dependencies:
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.31.0
-  checksum: 0c9797efde813616b954ec567ae79a1a1b13d807bc5f3b2fb3a98807fd7597b9be4c11457681f605f34d4f0c2e561c1c712f56d9ccc952e8a3191e3fa554899a
-  languageName: node
-  linkType: hard
-
-"@metaplex-foundation/mpl-token-vault@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@metaplex-foundation/mpl-token-vault@npm:0.0.2"
-  dependencies:
-    "@metaplex-foundation/mpl-core": ^0.0.2
-    "@solana/spl-token": ^0.1.8
-    "@solana/web3.js": ^1.31.0
-  checksum: 4543fc4142f59f447a19b26162d22c8547cb9b94cf2cc386f0d33db85fb06777d19d34792f7d63e0a9f4bb5549b2819e1f1b9cc2420af5effcdb84799dfe6616
   languageName: node
   linkType: hard
 
@@ -1548,7 +1526,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@safecoin/web3.js@npm:^1.21.0, @safecoin/web3.js@npm:^1.29.4":
+"@safecoin/web3.js@npm:^1.21.0, @safecoin/web3.js@npm:^1.29.3, @safecoin/web3.js@npm:^1.29.4":
   version: 1.29.4
   resolution: "@safecoin/web3.js@npm:1.29.4"
   dependencies:

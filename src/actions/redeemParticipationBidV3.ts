@@ -13,7 +13,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@safecoin/safe-token';
 import { Auction, AuctionExtended, BidderMetadata } from '@leda-mint-io/lpl-auction';
-import { Vault } from '@metaplex-foundation/mpl-token-vault';
+import { Vault } from '@leda-mint-io/lpl-token-vault';
 import {
   AuctionManager,
   NonWinningConstraint,
@@ -22,7 +22,7 @@ import {
   RedeemParticipationBidV3,
   SafetyDepositConfig,
   WinningConstraint,
-} from '@metaplex-foundation/mpl-metaplex';
+} from '@leda-mint-io/lpl-ledamint';
 import {
   Edition,
   EditionMarker,

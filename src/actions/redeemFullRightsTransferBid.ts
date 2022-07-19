@@ -10,9 +10,9 @@ import {
   MetaplexProgram,
   RedeemFullRightsTransferBid,
   SafetyDepositConfig,
-} from '@metaplex-foundation/mpl-metaplex';
+} from '@leda-mint-io/lpl-ledamint';
 import { CreateTokenAccount } from '../transactions';
-import { Vault } from '@metaplex-foundation/mpl-token-vault';
+import { Vault } from '@leda-mint-io/lpl-token-vault';
 import {
   Metadata,
   UpdatePrimarySaleHappenedViaToken,

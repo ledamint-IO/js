@@ -4,7 +4,7 @@ import {
   Vault,
   VaultProgram,
   UpdateExternalPriceAccount,
-} from '@metaplex-foundation/mpl-token-vault';
+} from '@leda-mint-io/lpl-token-vault';
 import {
   Keypair,
   PublicKey,

@@ -2,7 +2,7 @@ import {
   NonWinningConstraint,
   ParticipationConfigV2,
   WinningConstraint,
-} from '@metaplex-foundation/mpl-metaplex';
+} from '@leda-mint-io/lpl-ledamint';
 import { isEligibleForParticipationPrize } from '../../src/actions';
 
 describe('redeem participation bid v3', () => {

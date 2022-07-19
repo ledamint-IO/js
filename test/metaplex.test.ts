@@ -6,7 +6,7 @@ import {
   MetaplexKey,
   AuctionManager,
   PayoutTicket,
-} from '@metaplex-foundation/mpl-metaplex';
+} from '@leda-mint-io/lpl-ledamint';
 import {
   AUCTION_MANAGER_PUBKEY,
   AUCTION_PUBKEY,

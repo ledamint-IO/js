@@ -22,7 +22,7 @@ import {
   TOKEN_MINT_PUBKEY,
   VAULT_PUBKEY,
 } from '../utils';
-import { EndAuction, RedeemPrintingV2Bid } from '@metaplex-foundation/mpl-metaplex';
+import { EndAuction, RedeemPrintingV2Bid } from '@leda-mint-io/lpl-ledamint';
 import BN from 'bn.js';
 
 describe('Metaplex transactions', () => {

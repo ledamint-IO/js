@@ -40,7 +40,7 @@ import {
   UpdateExternalPriceAccount,
   WithdrawSharesFromTreasury,
   WithdrawTokenFromSafetyDepositBox,
-} from '@metaplex-foundation/mpl-token-vault';
+} from '@leda-mint-io/lpl-token-vault';
 import BN from 'bn.js';
 
 describe('Vault transactions', () => {
