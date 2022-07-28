@@ -1,4 +1,4 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import { Connection } from '@solana/web3.js';
 import { TokenProgramGpaBuilder } from './gpaBuilders';
 

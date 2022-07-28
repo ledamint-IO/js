@@ -1,5 +1,5 @@
 import { Keypair, PublicKey } from '@solana/web3.js';
-import { getMinimumBalanceForRentExemptMint, getAssociatedTokenAddress } from '@solana/spl-token';
+import { getMinimumBalanceForRentExemptMint, getAssociatedTokenAddress } from '@safecoin/safe-token';
 import { MetadataAccount, MasterEditionAccount } from '@/programs/tokenMetadata';
 import { Creator, DataV2 } from '@metaplex-foundation/mpl-token-metadata';
 import { OperationHandler } from '@/shared';

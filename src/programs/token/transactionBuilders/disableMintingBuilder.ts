@@ -1,6 +1,6 @@
 import { PublicKey, Signer as Web3Signer } from '@solana/web3.js';
 import { setAuthorityBuilder } from '@/programs/token';
-import { AuthorityType } from '@solana/spl-token';
+import { AuthorityType } from '@safecoin/safe-token';
 import { TransactionBuilder, Signer } from '@/shared';
 
 export interface DisableMintingBuilderParams {

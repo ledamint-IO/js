@@ -1,5 +1,5 @@
 import { PublicKey, Signer as Web3Signer } from '@solana/web3.js';
-import { createSetAuthorityInstruction, TOKEN_PROGRAM_ID, AuthorityType } from '@solana/spl-token';
+import { createSetAuthorityInstruction, TOKEN_PROGRAM_ID, AuthorityType } from '@safecoin/safe-token';
 import { TransactionBuilder, Signer } from '@/shared';
 
 export interface SetAuthorityBuilderParams {

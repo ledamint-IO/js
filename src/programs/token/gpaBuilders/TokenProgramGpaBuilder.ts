@@ -1,5 +1,5 @@
 import { GpaBuilder } from '@/shared';
-import { ACCOUNT_SIZE, MINT_SIZE } from '@solana/spl-token';
+import { ACCOUNT_SIZE, MINT_SIZE } from '@safecoin/safe-token';
 import { MintGpaBuilder, TokenGpaBuilder } from '.';
 
 export class TokenProgramGpaBuilder extends GpaBuilder {

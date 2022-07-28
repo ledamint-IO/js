@@ -3,7 +3,7 @@ import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   TOKEN_PROGRAM_ID,
-} from '@solana/spl-token';
+} from '@safecoin/safe-token';
 import { TransactionBuilder, Signer } from '@/shared';
 
 export interface CreateAssociatedTokenAccountBuilderParams {
