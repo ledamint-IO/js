@@ -1,4 +1,4 @@
-import { LAMPORTS_PER_SOL } from '@safecoin/web3.js';
+import { LAMPORTS_PER_SAFE } from '@safecoin/web3.js';
 import BN from 'bn.js';
 import { CurrencyMismatchError, UnexpectedCurrencyError } from '@/errors';
 import { BigNumber, BigNumberValues, toBigNumber } from './BigNumber';
@@ -50,7 +50,7 @@ export const lamports = (lamports: BigNumberValues): SolAmount => {
 };
 
 export const sol = (sol: number): SolAmount => {
-  return lamports(sol * LAMPORTS_PER_SOL);
+  return lamports(sol * LAMPORTS_PER_SAFE);
 };
 
 export const usd = (usd: number): UsdAmount => {
