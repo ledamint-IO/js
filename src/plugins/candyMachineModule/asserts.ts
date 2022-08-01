@@ -15,10 +15,7 @@ import {
   CandyMachineIsFullError,
   CandyMachineNotLiveError,
 } from './errors';
-import {
-  ConfigLine,
-  EndSettingType,
-} from '@leda-mint-io/lpl-candy-machine';
+import { ConfigLine, EndSettingType } from '@leda-mint-io/lpl-candy-machine';
 import { BigNumber, now, Signer, toBigNumber } from '@/types';
 
 export const assertName = (name: string) => {

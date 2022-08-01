@@ -1,7 +1,4 @@
-import {
-  CandyMachine,
-  CollectionPDA,
-} from '@leda-mint-io/lpl-candy-machine';
+import { CandyMachine, CollectionPDA } from '@leda-mint-io/lpl-candy-machine';
 import {
   Account,
   getAccountParsingAndAssertingFunction,

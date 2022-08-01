@@ -1,7 +1,4 @@
-import {
-  AuctionHouse,
-  ListingReceipt,
-} from '@leda-mint-io/lpl-auction-house';
+import { AuctionHouse, ListingReceipt } from '@leda-mint-io/lpl-auction-house';
 import {
   Account,
   getAccountParsingAndAssertingFunction,

@@ -1,8 +1,5 @@
 // TODO(thlorenz): the mpl modules should export those as 'accountProviders'
-import {
-  CandyMachine,
-  CollectionPDA,
-} from '@leda-mint-io/lpl-candy-machine';
+import { CandyMachine, CollectionPDA } from '@leda-mint-io/lpl-candy-machine';
 import {
   CollectionAuthorityRecord,
   Edition,
