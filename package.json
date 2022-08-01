@@ -24,7 +24,7 @@
   "description": "Ledamint JavaScript SDK",
   "keywords": [
     "nft",
-    "metaplex",
+    "ledamint",
     "safecoin",
     "blockchain"
   ],
@@ -52,14 +52,14 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.54.1",
-    "@bundlr-network/client": "^0.7.14",
+    "@j0nnyboi/client": "^0.7.3",
     "@j0nnyboi/beet": "^0.4.0",
     "@j0nnyboi/beet-safecoin": "^0.3.0",
     "@leda-mint-io/lpl-auction-house": "^2.1.11",
     "@leda-mint-io/lpl-candy-machine": "^4.2.1",
-    "@leda-mint-io/lpl-token-metadata": "^1.2.52",
+    "@leda-mint-io/lpl-token-metadata": "^2.2.2",
     "@safecoin/safe-token": "^0.2.0",
-    "@safecoin/web3.js": "^1.29.4",
+    "@safecoin/web3.js": "^1.44.0",
     "abort-controller": "^3.0.0",
     "bignumber.js": "^9.0.2",
     "bn.js": "^5.2.0",

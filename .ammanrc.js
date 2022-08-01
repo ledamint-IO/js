@@ -1,4 +1,4 @@
-const { LOCALHOST, tmpLedgerDir } = require('@metaplex-foundation/amman');
+const { LOCALHOST, tmpLedgerDir } = require('@j0nnyboi/amman');
 const path = require('path');
 const MOCK_STORAGE_ID = 'js-next-sdk';
 
@@ -9,10 +9,10 @@ function localDeployPath(programName) {
 }
 
 const programIds = {
-  metadata: 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
-  vault: 'vau1zxA2LbssAUEF7Gpw91zMM1LvXrvpzJtmZ58rPsn',
-  auction: 'auctxRXPeJoc4817jDhf4HbjnhEcr1cCXenosMhK5R8',
-  metaplex: 'p1exdMJcjVao65QdewkaZRUnU6VPSXhus9n2GzWfh98',
+  metadata: 'WbMTNyvtk8vSMu2AmXV7mKuYrADRNw9GSkNtWKsZ7qe',
+  vault: '9sfa9YXCZKvzMcpRFfaW3kudtqoqW4jKTfjsn5Q3fp8N',
+  auction: 'ETy2M4RHk1K9fXtzP5wuvP7iUZPazbsgsTvAWFDigkj4',
+  metaplex: 'LeDzYVjEBhN5Cms2ZcvPLCaY8ENX7cc3RJCnEXM6ZAo',
   fixedPriceSaleToken: 'SaLeTjyUa5wXHnGuewUSyJ5JWZaHwz3TxqUntCE9czo',
   candyMachine: 'CaNucwHEE2Mc7CPMSbNkrqPEx2iDoMs1uCDtS4mPdDq7',
   auctionHouse: 'Co8pmAyxUyCwep4zhnPWzkL6fwvPPHU59r1t5eM6gXjZ',
@@ -22,17 +22,17 @@ const programs = [
   {
     label: 'Token Metadata',
     programId: programIds.metadata,
-    deployPath: localDeployPath('mpl_token_metadata'),
+    deployPath: localDeployPath('lpl_token_metadata'),
   },
   {
     label: 'Candy Machine',
     programId: programIds.candyMachine,
-    deployPath: localDeployPath('mpl_candy_machine'),
+    deployPath: localDeployPath('lpl_candy_machine'),
   },
   {
     label: 'Auction House',
     programId: programIds.auctionHouse,
-    deployPath: localDeployPath('mpl_auction_house'),
+    deployPath: localDeployPath('lpl_auction_house'),
   },
 ];
 
