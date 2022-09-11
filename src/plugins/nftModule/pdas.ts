@@ -3,6 +3,7 @@ import { Buffer } from 'buffer';
 import { BigNumber, Pda, toBigNumber } from '@/types';
 import { TokenMetadataProgram } from './program';
 
+/** @group Pdas */
 export const findMetadataPda = (
   mint: PublicKey,
   programId: PublicKey = TokenMetadataProgram.publicKey
@@ -14,6 +15,7 @@ export const findMetadataPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findMasterEditionV2Pda = (
   mint: PublicKey,
   programId: PublicKey = TokenMetadataProgram.publicKey
@@ -26,6 +28,7 @@ export const findMasterEditionV2Pda = (
   ]);
 };
 
+/** @group Pdas */
 export const findEditionPda = (
   mint: PublicKey,
   programId: PublicKey = TokenMetadataProgram.publicKey
@@ -38,6 +41,7 @@ export const findEditionPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findEditionMarkerPda = (
   mint: PublicKey,
   edition: BigNumber,
@@ -52,6 +56,7 @@ export const findEditionMarkerPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findCollectionAuthorityRecordPda = (
   mint: PublicKey,
   collectionAuthority: PublicKey,
@@ -66,6 +71,7 @@ export const findCollectionAuthorityRecordPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findUseAuthorityRecordPda = (
   mint: PublicKey,
   useAuthority: PublicKey,
@@ -77,5 +83,16 @@ export const findUseAuthorityRecordPda = (
     mint.toBuffer(),
     Buffer.from('user', 'utf8'),
     useAuthority.toBuffer(),
+  ]);
+};
+
+/** @group Pdas */
+export const findProgramAsBurnerPda = (
+  programId: PublicKey = TokenMetadataProgram.publicKey
+): Pda => {
+  return Pda.find(programId, [
+    Buffer.from('metadata', 'utf8'),
+    programId.toBuffer(),
+    Buffer.from('burn', 'utf8'),
   ]);
 };

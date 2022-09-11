@@ -1,6 +1,6 @@
 import test from 'tape';
 import spok, { Specifications } from 'spok';
-import { TokenStandard } from '@leda-mint-io/lpl-token-metadata';
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 import {
   createNft,
   createWallet,
@@ -19,7 +19,7 @@ import {
   toDateTime,
   token,
 } from '@/index';
-import { WhitelistMintMode } from '@leda-mint-io/lpl-candy-machine';
+import { WhitelistMintMode } from '@metaplex-foundation/mpl-candy-machine';
 
 killStuckProcess();
 
@@ -37,9 +37,10 @@ test('[candyMachineModule] it can mint from candy machine', async (t) => {
   });
 
   // When we mint an NFT from the candy machine.
-  const { nft, candyMachine: updatedCandyMachine } = await mx
+  const { nft } = await mx.candyMachines().mint({ candyMachine }).run();
+  const updatedCandyMachine = await mx
     .candyMachines()
-    .mint(candyMachine)
+    .refresh(candyMachine)
     .run();
 
   // Then an NFT was created with the right data.
@@ -92,12 +93,12 @@ test('[candyMachineModule] it can mint from candy machine with a collection', as
   const { candyMachine } = await createCandyMachine(mx, {
     goLiveDate: toDateTime(now().subn(24 * 60 * 60)), // Yesterday.
     itemsAvailable: toBigNumber(1),
-    collection,
+    collection: collection.address,
     items: [{ name: 'Degen #1', uri: 'https://example.com/degen/1' }],
   });
 
   // When we mint an NFT from that candy machine.
-  const { nft } = await mx.candyMachines().mint(candyMachine).run();
+  const { nft } = await mx.candyMachines().mint({ candyMachine }).run();
 
   // Then an NFT was created.
   spok(t, nft, {
@@ -106,7 +107,7 @@ test('[candyMachineModule] it can mint from candy machine with a collection', as
     name: 'Degen #1',
     collection: {
       verified: true,
-      key: spokSamePubkey(collection.mintAddress),
+      address: spokSamePubkey(collection.address),
     },
   } as Specifications<Nft>);
 });
@@ -126,7 +127,7 @@ test('[candyMachineModule] it can mint from candy machine as another payer', asy
   // When we mint an NFT from the candy machine.
   const { nft } = await mx
     .candyMachines()
-    .mint(candyMachine, { payer, newOwner: payer.publicKey })
+    .mint({ candyMachine, payer, newOwner: payer.publicKey })
     .run();
 
   // Then an NFT was created with the right data.
@@ -140,7 +141,7 @@ test('[candyMachineModule] it can mint from candy machine as another payer', asy
   const nftTokenHolder = await mx
     .tokens()
     .findTokenWithMintByMint({
-      mint: nft.mintAddress,
+      mint: nft.address,
       address: payer.publicKey,
       addressType: 'owner',
     })
@@ -185,7 +186,7 @@ test('[candyMachineModule] it can mint from candy machine with an SPL treasury',
   // When we mint an NFT from that candy machine.
   const { nft } = await mx
     .candyMachines()
-    .mint(candyMachine, { payer, newOwner: payer.publicKey })
+    .mint({ candyMachine, payer, newOwner: payer.publicKey })
     .run();
 
   // Then an NFT was created.
@@ -198,10 +199,10 @@ test('[candyMachineModule] it can mint from candy machine with an SPL treasury',
   // And the payer token account was debited.
   const updatedPayerTokenAccount = await mx
     .tokens()
-    .findTokenByAddress(payerTokenAccount.address)
+    .findTokenByAddress({ address: payerTokenAccount.address })
     .run();
   t.equal(
-    updatedPayerTokenAccount.amount.toNumber(),
+    updatedPayerTokenAccount.amount.basisPoints.toNumber(),
     5,
     'Payer token account was debited'
   );
@@ -248,7 +249,7 @@ test('[candyMachineModule] it can mint from candy machine even when we max out t
     tokenMint: mintTreasury.address,
     wallet: treasuryTokenAccount.address,
     whitelistMintSettings,
-    collection,
+    collection: collection.address,
     items: [
       { name: 'Degen #1', uri: 'https://example.com/degen/1' },
       { name: 'Degen #2', uri: 'https://example.com/degen/2' },
@@ -258,7 +259,7 @@ test('[candyMachineModule] it can mint from candy machine even when we max out t
   // When we mint an NFT from that candy machine.
   const { nft } = await mx
     .candyMachines()
-    .mint(candyMachine, { payer, newOwner: payer.publicKey })
+    .mint({ candyMachine, payer, newOwner: payer.publicKey })
     .run();
 
   // Then an NFT was created.

@@ -1,140 +1,168 @@
-import type { PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
-import { Task } from '@/utils';
-import { TokenBuildersClient } from './TokenBuildersClient';
-import { Mint } from './Mint';
-import { Token, TokenWithMint } from './Token';
 import {
+  ApproveTokenDelegateAuthorityInput,
+  approveTokenDelegateAuthorityOperation,
   CreateMintInput,
   createMintOperation,
-  CreateMintOutput,
-} from './createMint';
-import {
   CreateTokenInput,
   createTokenOperation,
-  CreateTokenOutput,
-} from './createToken';
-import {
   CreateTokenWithMintInput,
   createTokenWithMintOperation,
-  CreateTokenWithMintOutput,
-} from './createTokenWithMint';
-import {
   FindMintByAddressInput,
   findMintByAddressOperation,
-} from './findMintByAddress';
-import {
   FindTokenByAddressInput,
   findTokenByAddressOperation,
-} from './findTokenByAddress';
-import {
   FindTokenWithMintByAddressInput,
   findTokenWithMintByAddressOperation,
-} from './findTokenWithMintByAddress';
-import {
   FindTokenWithMintByMintInput,
   findTokenWithMintByMintOperation,
-} from './findTokenWithMintByMint';
-import {
+  FreezeTokensInput,
+  freezeTokensOperation,
   MintTokensInput,
   mintTokensOperation,
-  MintTokensOutput,
-} from './mintTokens';
-import {
+  RevokeTokenDelegateAuthorityInput,
+  revokeTokenDelegateAuthorityOperation,
   SendTokensInput,
   sendTokensOperation,
-  SendTokensOutput,
-} from './sendTokens';
+  ThawTokensInput,
+  thawTokensOperation,
+} from './operations';
+import { TokenBuildersClient } from './TokenBuildersClient';
 
+/**
+ * This is a client for the Token module.
+ *
+ * It enables us to interact with the SPL Token program in order to
+ * create, send, freeze, thaw, and mint tokens.
+ *
+ * You may access this client via the `tokens()` method of your `Metaplex` instance.
+ *
+ * ```ts
+ * const tokenClient = metaplex.tokens();
+ * ```
+ *
+ * @example
+ * You can create a new mint account with an associated token account like so.
+ * The owner of this token account will, by default, be the current identity
+ * of the metaplex instance.
+ *
+ * ```ts
+ * const { token } = await metaplex.tokens().createTokenWithMint().run();
+ * ```
+ *
+ * @group Modules
+ */
 export class TokenClient {
   constructor(protected readonly metaplex: Metaplex) {}
 
+  /**
+   * You may use the `builders()` client to access the
+   * underlying Transaction Builders of this module.
+   *
+   * ```ts
+   * const buildersClient = metaplex.tokens().builders();
+   * ```
+   */
   builders() {
     return new TokenBuildersClient(this.metaplex);
   }
 
-  createMint(
-    input: CreateMintInput = {}
-  ): Task<CreateMintOutput & { mint: Mint }> {
-    return new Task(async (scope) => {
-      const operation = createMintOperation(input);
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const mint = await this.findMintByAddress(
-        output.mintSigner.publicKey
-      ).run(scope);
-      return { ...output, mint };
-    });
-  }
+  // -----------------
+  // Queries
+  // -----------------
 
-  createToken(
-    input: CreateTokenInput
-  ): Task<CreateTokenOutput & { token: Token }> {
-    return new Task(async (scope) => {
-      const operation = createTokenOperation(input);
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const token = await this.findTokenByAddress(output.tokenAddress).run(
-        scope
-      );
-      return { ...output, token };
-    });
-  }
-
-  createTokenWithMint(
-    input: CreateTokenWithMintInput = {}
-  ): Task<CreateTokenWithMintOutput & { token: TokenWithMint }> {
-    return new Task(async (scope) => {
-      const operation = createTokenWithMintOperation(input);
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const token = await this.findTokenWithMintByMint({
-        mint: output.mintSigner.publicKey,
-        address: output.tokenAddress,
-        addressType: 'token',
-      }).run(scope);
-      return { ...output, token };
-    });
-  }
-
-  findMintByAddress(
-    address: PublicKey,
-    options?: Omit<FindMintByAddressInput, 'address'>
-  ) {
+  /** {@inheritDoc findMintByAddressOperation} */
+  findMintByAddress(input: FindMintByAddressInput) {
     return this.metaplex
       .operations()
-      .getTask(findMintByAddressOperation({ address, ...options }));
+      .getTask(findMintByAddressOperation(input));
   }
 
-  findTokenByAddress(
-    address: PublicKey,
-    options?: Omit<FindTokenByAddressInput, 'address'>
-  ) {
+  /** {@inheritDoc findTokenByAddressOperation} */
+  findTokenByAddress(input: FindTokenByAddressInput) {
     return this.metaplex
       .operations()
-      .getTask(findTokenByAddressOperation({ address, ...options }));
+      .getTask(findTokenByAddressOperation(input));
   }
 
-  findTokenWithMintByAddress(
-    address: PublicKey,
-    options?: Omit<FindTokenWithMintByAddressInput, 'address'>
-  ) {
+  /** {@inheritDoc findTokenWithMintByAddressOperation} */
+  findTokenWithMintByAddress(input: FindTokenWithMintByAddressInput) {
     return this.metaplex
       .operations()
-      .getTask(findTokenWithMintByAddressOperation({ address, ...options }));
+      .getTask(findTokenWithMintByAddressOperation(input));
   }
 
+  /** {@inheritDoc findTokenWithMintByMintOperation} */
   findTokenWithMintByMint(input: FindTokenWithMintByMintInput) {
     return this.metaplex
       .operations()
       .getTask(findTokenWithMintByMintOperation(input));
   }
 
-  mintTokens(input: MintTokensInput): Task<MintTokensOutput> {
+  // -----------------
+  // Create
+  // -----------------
+
+  /** {@inheritDoc createMintOperation} */
+  createMint(input?: CreateMintInput) {
+    return this.metaplex.operations().getTask(createMintOperation(input ?? {}));
+  }
+
+  /**
+   * Create a new Token account from the provided input
+   * and returns the newly created `Token` model.
+   */
+  /** {@inheritDoc createTokenOperation} */
+  createToken(input: CreateTokenInput) {
+    return this.metaplex.operations().getTask(createTokenOperation(input));
+  }
+
+  /** {@inheritDoc createTokenWithMintOperation} */
+  createTokenWithMint(input: CreateTokenWithMintInput = {}) {
+    return this.metaplex
+      .operations()
+      .getTask(createTokenWithMintOperation(input));
+  }
+
+  // -----------------
+  // Update
+  // -----------------
+
+  /** {@inheritDoc mintTokensOperation} */
+  mint(input: MintTokensInput) {
     return this.metaplex.operations().getTask(mintTokensOperation(input));
   }
 
-  sendTokens(input: SendTokensInput): Task<SendTokensOutput> {
+  /** {@inheritDoc sendTokensOperation} */
+  send(input: SendTokensInput) {
     return this.metaplex.operations().getTask(sendTokensOperation(input));
+  }
+
+  /** {@inheritDoc freezeTokensOperation} */
+  freeze(input: FreezeTokensInput) {
+    return this.metaplex.operations().getTask(freezeTokensOperation(input));
+  }
+
+  /** {@inheritDoc thawTokensOperation} */
+  thaw(input: ThawTokensInput) {
+    return this.metaplex.operations().getTask(thawTokensOperation(input));
+  }
+
+  // -----------------
+  // Delegate
+  // -----------------
+
+  /** {@inheritDoc approveTokenDelegateAuthorityOperation} */
+  approveDelegateAuthority(input: ApproveTokenDelegateAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(approveTokenDelegateAuthorityOperation(input));
+  }
+
+  /** {@inheritDoc revokeTokenDelegateAuthorityOperation} */
+  revokeDelegateAuthority(input: RevokeTokenDelegateAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(revokeTokenDelegateAuthorityOperation(input));
   }
 }

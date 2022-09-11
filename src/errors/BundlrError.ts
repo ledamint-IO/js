@@ -1,8 +1,10 @@
 import {
   MetaplexError,
   MetaplexErrorInputWithoutSource,
+  MetaplexErrorOptions,
 } from './MetaplexError';
 
+/** @group Errors */
 export class BundlrError extends MetaplexError {
   constructor(input: MetaplexErrorInputWithoutSource) {
     super({
@@ -15,10 +17,11 @@ export class BundlrError extends MetaplexError {
   }
 }
 
+/** @group Errors */
 export class FailedToInitializeBundlrError extends BundlrError {
-  constructor(cause: Error) {
+  constructor(options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'failed_to_initialize_bundlr',
       title: 'Failed to Initialize Bundlr',
       problem: 'Bundlr could not be initialized.',
@@ -29,10 +32,11 @@ export class FailedToInitializeBundlrError extends BundlrError {
   }
 }
 
+/** @group Errors */
 export class FailedToConnectToBundlrAddressError extends BundlrError {
-  constructor(address: string, cause?: Error) {
+  constructor(address: string, options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'failed_to_connect_to_bundlr_address',
       title: 'Failed to Connect to Bundlr Address',
       problem: `Bundlr could not connect to the provided address [${address}].`,
@@ -43,10 +47,11 @@ export class FailedToConnectToBundlrAddressError extends BundlrError {
   }
 }
 
+/** @group Errors */
 export class AssetUploadFailedError extends BundlrError {
-  constructor(status: number, cause?: Error) {
+  constructor(status: number, options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'asset_upload_failed',
       title: 'Asset Upload Failed',
       problem:
@@ -59,10 +64,11 @@ export class AssetUploadFailedError extends BundlrError {
   }
 }
 
+/** @group Errors */
 export class BundlrWithdrawError extends BundlrError {
-  constructor(status: number, cause?: Error) {
+  constructor(status: number, options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'bundlr_withdraw_error',
       title: 'Bundlr Withdraw Error',
       problem:

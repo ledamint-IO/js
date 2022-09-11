@@ -6,7 +6,7 @@ import {
   MAX_SYMBOL_LENGTH,
   MAX_URI_LENGTH,
 } from './constants';
-import { CandyMachine } from './CandyMachine';
+import { CandyMachine } from './models/CandyMachine';
 import {
   CandyMachineAddItemConstraintsViolatedError,
   CandyMachineCannotAddAmountError,
@@ -15,7 +15,10 @@ import {
   CandyMachineIsFullError,
   CandyMachineNotLiveError,
 } from './errors';
-import { ConfigLine, EndSettingType } from '@leda-mint-io/lpl-candy-machine';
+import {
+  ConfigLine,
+  EndSettingType,
+} from '@leda-mint-io/lpl-candy-machine';
 import { BigNumber, now, Signer, toBigNumber } from '@/types';
 
 export const assertName = (name: string) => {
@@ -46,20 +49,25 @@ export const assertCreators = (creators: Creator[]) => {
   );
 };
 
-export const assertNotFull = (candyMachine: CandyMachine, index: BigNumber) => {
-  if (candyMachine.isFullyLoaded) {
+export const assertNotFull = (
+  candyMachine: Pick<CandyMachine, 'itemsAvailable' | 'itemsLoaded'>,
+  index: BigNumber
+) => {
+  if (candyMachine.itemsAvailable.lte(candyMachine.itemsLoaded)) {
     throw new CandyMachineIsFullError(index, candyMachine.itemsAvailable);
   }
 };
 
-export const assertNotEmpty = (candyMachine: CandyMachine) => {
+export const assertNotEmpty = (
+  candyMachine: Pick<CandyMachine, 'itemsRemaining' | 'itemsAvailable'>
+) => {
   if (candyMachine.itemsRemaining.isZero()) {
     throw new CandyMachineIsEmptyError(candyMachine.itemsAvailable);
   }
 };
 
 export const assertCanAdd = (
-  candyMachine: CandyMachine,
+  candyMachine: Pick<CandyMachine, 'itemsAvailable'>,
   index: BigNumber,
   amount: number
 ) => {
@@ -77,17 +85,19 @@ export const assertAllConfigLineConstraints = (configLines: ConfigLine[]) => {
     try {
       assertName(configLines[i].name);
       assertUri(configLines[i].uri);
-    } catch (err: any) {
+    } catch (error) {
       throw new CandyMachineAddItemConstraintsViolatedError(
         toBigNumber(i),
         configLines[i],
-        err
+        { cause: error as Error }
       );
     }
   }
 };
 
-export const assertCandyMachineIsLive = (candyMachine: CandyMachine) => {
+export const assertCandyMachineIsLive = (
+  candyMachine: Pick<CandyMachine, 'whitelistMintSettings' | 'goLiveDate'>
+) => {
   const hasWhitelistPresale =
     candyMachine.whitelistMintSettings?.presale ?? false;
 
@@ -102,7 +112,9 @@ export const assertCandyMachineIsLive = (candyMachine: CandyMachine) => {
   }
 };
 
-export const assertCandyMachineHasNotEnded = (candyMachine: CandyMachine) => {
+export const assertCandyMachineHasNotEnded = (
+  candyMachine: Pick<CandyMachine, 'endSettings' | 'itemsMinted'>
+) => {
   const endSettings = candyMachine.endSettings;
 
   if (!endSettings) {
@@ -122,7 +134,16 @@ export const assertCandyMachineHasNotEnded = (candyMachine: CandyMachine) => {
 };
 
 export const assertCanMintCandyMachine = (
-  candyMachine: CandyMachine,
+  candyMachine: Pick<
+    CandyMachine,
+    | 'authorityAddress'
+    | 'itemsRemaining'
+    | 'itemsAvailable'
+    | 'itemsMinted'
+    | 'whitelistMintSettings'
+    | 'goLiveDate'
+    | 'endSettings'
+  >,
   payer: Signer
 ) => {
   assertNotEmpty(candyMachine);

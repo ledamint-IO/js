@@ -2,14 +2,14 @@ import { PublicKey } from '@safecoin/web3.js';
 import { Buffer } from 'buffer';
 import { AccountNotFoundError, UnexpectedAccountError } from '@/errors';
 
-export type Account<T> = Readonly<{
-  publicKey: PublicKey;
-  executable: boolean;
-  owner: PublicKey;
-  lamports: number;
-  data: T;
-  rentEpoch?: number;
-}>;
+export type Account<T> = {
+  readonly publicKey: PublicKey;
+  readonly executable: boolean;
+  readonly owner: PublicKey;
+  readonly lamports: number;
+  readonly data: T;
+  readonly rentEpoch?: number;
+};
 
 export type MaybeAccount<T> =
   | (Account<T> & { readonly exists: true })
@@ -67,11 +67,9 @@ export function getAccountParsingFunction<T>(
       const data: T = parser.deserialize(account.data)[0];
       return { ...account, data };
     } catch (error) {
-      throw new UnexpectedAccountError(
-        account.publicKey,
-        parser.name,
-        error as Error
-      );
+      throw new UnexpectedAccountError(account.publicKey, parser.name, {
+        cause: error as Error,
+      });
     }
   }
 
@@ -112,6 +110,6 @@ export function assertAccountExists<T>(
   solution?: string
 ): asserts account is Account<T> & { exists: true } {
   if (!account.exists) {
-    throw new AccountNotFoundError(account.publicKey, name, solution);
+    throw new AccountNotFoundError(account.publicKey, name, { solution });
   }
 }

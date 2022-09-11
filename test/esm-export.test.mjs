@@ -1,6 +1,6 @@
 import * as exported from '../dist/esm/index.mjs';
 import test from 'tape';
-import { Connection } from '@safecoin/web3.js';
+import { Connection } from '@solana/web3.js';
 import { LOCALHOST } from '@metaplex-foundation/amman-client';
 
 test('[esm] it successfully exports esm named exports', (t) => {

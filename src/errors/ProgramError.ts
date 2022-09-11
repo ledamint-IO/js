@@ -2,10 +2,12 @@ import { Program } from '@/types';
 import {
   MetaplexError,
   MetaplexErrorInputWithoutSource,
+  MetaplexErrorOptions,
 } from './MetaplexError';
 
 type UnderlyingProgramError = Error & { code?: number; logs?: string[] };
 
+/** @group Errors */
 export class ProgramError extends MetaplexError {
   public program: Program;
 
@@ -21,29 +23,41 @@ export class ProgramError extends MetaplexError {
   }
 }
 
+/** @group Errors */
 export class ParsedProgramError extends ProgramError {
-  constructor(program: Program, cause: UnderlyingProgramError) {
+  constructor(
+    program: Program,
+    cause: UnderlyingProgramError,
+    options?: Omit<MetaplexErrorOptions, 'cause' | 'logs'>
+  ) {
     const ofCode = cause.code ? ` of code [${cause.code}]` : '';
     super(program, {
-      cause,
       key: 'parsed_program_error',
       title: cause.message,
       problem:
-        `The program [${
-          program.name
-        }] at address [${program.address.toBase58()}] ` +
-        `raised an error${ofCode} that translates to "${cause.message}".`,
+        `The program [${program.name}] ` +
+        `at address [${program.address.toBase58()}] ` +
+        `raised an error${ofCode} ` +
+        `that translates to "${cause.message}".`,
       solution: 'Check the error message provided by the program.',
-      logs: cause.logs,
+      options: {
+        ...options,
+        logs: cause.logs,
+        cause,
+      },
     });
   }
 }
 
+/** @group Errors */
 export class UnknownProgramError extends ProgramError {
-  constructor(program: Program, cause: UnderlyingProgramError) {
+  constructor(
+    program: Program,
+    cause: UnderlyingProgramError,
+    options?: Omit<MetaplexErrorOptions, 'cause' | 'logs'>
+  ) {
     const ofCode = cause.code ? ` of code [${cause.code}]` : '';
     super(program, {
-      cause,
       key: 'unknown_program_error',
       title: 'Unknown Program Error',
       problem:
@@ -56,7 +70,11 @@ export class UnknownProgramError extends ProgramError {
         'error below to investigate what went wrong. ' +
         'To get more helpful error messages, ensure the program that failed is ' +
         'registered by the SDK and provides an "errorResolver" method.',
-      logs: cause.logs,
+      options: {
+        ...options,
+        logs: cause.logs,
+        cause,
+      },
     });
   }
 }

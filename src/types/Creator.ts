@@ -1,27 +1,46 @@
 import { PublicKey } from '@safecoin/web3.js';
+import { Signer } from './Signer';
 
-export type Creator = Readonly<{
-  address: PublicKey;
-  verified: boolean;
-  share: number;
-}>;
+/**
+ * Object that represents the creator of an asset.
+ * It contains its public key, its shares of the royalties in percent
+ * and whether or not the creator is verified for a given asset
+ * (i.e. they signed the asset).
+ *
+ * @group Models
+ */
+export type Creator = {
+  /** The public key of the creator. */
+  readonly address: PublicKey;
 
-export const toUniformCreators = (...addresses: PublicKey[]): Creator[] => {
-  const shareFloor = Math.floor(100 / addresses.length);
-  const shareModulo = 100 % addresses.length;
+  /** Whether or not the creator is verified for the asset. */
+  readonly verified: boolean;
 
-  return addresses.map((address, index) => ({
-    address,
-    verified: false,
-    share: index < shareModulo ? shareFloor + 1 : shareFloor,
-  }));
+  /** The creator's shares of the royalties in percent (i.e. 5 is 5%). */
+  readonly share: number;
 };
 
-export const toUniformVerifiedCreators = (
-  ...addresses: PublicKey[]
-): Creator[] => {
-  return toUniformCreators(...addresses).map((creator) => ({
-    ...creator,
-    verified: true,
-  }));
+/**
+ * This object provides a way of providing creator information when needed,
+ * e.g. when creating or updating NFTs, candy machines, etc.
+ *
+ * It allows us to optionally provide an authority as a Signer so we can
+ * both set and verify the creator within the same operation.
+ *
+ * @group Operations
+ * @category Inputs
+ */
+export type CreatorInput = {
+  /** The public key of the creator. */
+  readonly address: PublicKey;
+
+  /** The creator's shares of the royalties in percent (i.e. 5 is 5%). */
+  readonly share: number;
+
+  /**
+   * The authority that should sign the asset to verify the creator.
+   * When this is not provided, the creator will not be
+   * verified within this operation.
+   */
+  readonly authority?: Signer;
 };

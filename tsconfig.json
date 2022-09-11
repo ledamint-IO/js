@@ -1,46 +1,8 @@
 {
+  "extends": "../../tsconfig.json",
   "include": ["src"],
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "dist/esm",
     "declarationDir": "dist/types",
-    "declaration": true,
-    "sourceMap": true,
-    "noEmit": false,
-    "noEmitOnError": true,
-    "emitDeclarationOnly": true,
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "plugins": [
-      {
-        "transform": "@ovos-media/ts-transform-paths",
-        "exclude": ["*"]
-      }
-    ],
-
-    "target": "es2019",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "allowJs": false,
-    "skipLibCheck": true,
-
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": false,
-    "strict": true,
-    "isolatedModules": true,
-
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "removeComments": false,
-    "jsx": "preserve"
   },
-  "typedocOptions": {
-    "entryPoints": "src/index.ts",
-    "out": "docs",
-    "readme": "README.md"
-  }
 }

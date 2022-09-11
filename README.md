@@ -6,7 +6,7 @@ Please note that this SDK has been re-implemented from scratch and is still in a
 
 ## Installation
 ```sh
-npm install @metaplex-foundation/js @safecoin/web3.js
+npm install @metaplex-foundation/js @solana/web3.js
 ```
 
 🔥 **Pro Tip**: Check out our examples and starter kits on the ["JS Examples" repository](https://github.com/metaplex-foundation/js-examples).
@@ -14,11 +14,11 @@ npm install @metaplex-foundation/js @safecoin/web3.js
 ## Setup
 The entry point to the JavaScript SDK is a `Metaplex` instance that will give you access to its API.
 
-It accepts a `Connection` instance from `@safecoin/web3.js` that will be used to communicate with the cluster.
+It accepts a `Connection` instance from `@solana/web3.js` that will be used to communicate with the cluster.
 
 ```ts
 import { Metaplex } from "@metaplex-foundation/js";
-import { Connection, clusterApiUrl } from "@safecoin/web3.js";
+import { Connection, clusterApiUrl } from "@solana/web3.js";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const metaplex = new Metaplex(connection);
@@ -28,7 +28,7 @@ On top of that, you can customise who the SDK should interact on behalf of and w
 
 ```ts
 import { Metaplex, keypairIdentity, bundlrStorage } from "@metaplex-foundation/js";
-import { Connection, clusterApiUrl, Keypair } from "@safecoin/web3.js";
+import { Connection, clusterApiUrl, Keypair } from "@solana/web3.js";
 
 const connection = new Connection(clusterApiUrl("mainnet-beta"));
 const wallet = Keypair.generate();
@@ -79,13 +79,14 @@ The NFT module can be accessed via `metaplex.nfts()` and provides the following 
 
 - [`findByMint(mint, options)`](#findByMint)
 - [`findAllByMintList(mints, options)`](#findAllByMintList)
-- [`loadNft(lazyNft, options)`](#loadNft)
+- [`load(metadata, options)`](#load)
 - [`findAllByOwner(owner, options)`](#findAllByOwner)
 - [`findAllByCreator(creator, options)`](#findAllByCreator)
 - [`uploadMetadata(metadata)`](#uploadMetadata)
 - [`create(input)`](#create)
 - [`update(nft, input)`](#update)
-- [`printNewEdition(originalMint, params)`](#printNewEdition)
+- [`printNewEdition(originalMint, input)`](#printNewEdition)
+- [`use(nft, input)`](#useNft)
 
 And the following model, either returned or used by the above methods.
 
@@ -136,20 +137,20 @@ const [nftA, nftB] = await metaplex
     .run();
 ```
 
-NFTs retrieved via `findAllByMintList` may be of type `LazyNft` rather than `Nft`.
+NFTs retrieved via `findAllByMintList` may be of type `Metadata` rather than `Nft`.
 
 What this means is they won't have their JSON metadata loaded because this would require one request per NFT and could be inefficient if you provide a long list of mint addresses. Additionally, you might want to fetch these on-demand, as the NFTs are being displayed on your web app for instance. The same goes for the `edition` property which requires an extra account to fetch and might be irrelevant until the user clicks on the NFT.
 
-Note that, since plugins can swap operation handlers with their own implementations, it is possible that a plugin relying on indexers return an array of `Nft`s directly instead of `LazyNft`s. The default implementation though, will return `LazyNft`s.
+Note that, since plugins can swap operation handlers with their own implementations, it is possible that a plugin relying on indexers return an array of `Nft`s directly instead of `Metadata`s. The default implementation though, will return `Metadata`s.
 
-Thus, if you want to load the `json` and/or `edition` properties of an NFT, you need to load that `LazyNft` into an `Nft`. Which you can do with the next operation.
+Thus, if you want to load the `json` and/or `edition` properties of an NFT, you need to load that `Metadata` into an `Nft`. Which you can do with the next operation.
 
-### loadNft
+### load
 
-For performance reasons, when fetching NFTs in bulk, you may received `LazyNft`s which exclude the JSON Metadata and the Edition information of the NFT. In order to transform a `LazyNft` into an `Nft`, you may use the `loadNft` operation like so.
+For performance reasons, when fetching NFTs in bulk, you may received `Metadata`s which exclude the JSON Metadata and the Edition information of the NFT. In order to transform a `Metadata` into an `Nft`, you may use the `load` operation like so.
 
 ```ts
-const nft = await metaplex.nfts().loadNft(lazyNft).run();
+const nft = await metaplex.nfts().load(metadata).run();
 ```
 
 This will give you access to the `json` and `edition` properties of the NFT as explained in [the NFT model documentation](#the-nft-model).
@@ -165,7 +166,7 @@ const myNfts = await metaplex
     .run();
 ```
 
-Similarly to `findAllByMintList`, the returned NFTs may be `LazyNft`s.
+Similarly to `findAllByMintList`, the returned NFTs may be `Metadata`s.
 
 ### findAllByCreator
 
@@ -177,7 +178,7 @@ const nfts = await metaplex.nfts().findAllByCreator(creatorPublicKey, { position
 const nfts = await metaplex.nfts().findAllByCreator(creatorPublicKey, { position: 2 }).run(); // Now matching the second creator field.
 ```
 
-Similarly to `findAllByMintList`, the returned NFTs may be `LazyNft`s.
+Similarly to `findAllByMintList`, the returned NFTs may be `Metadata`s.
 
 ### uploadMetadata
 
@@ -231,7 +232,7 @@ Note that `MetaplexFile`s can be created in various different ways based on wher
 
 ### create
 
-The `create` method accepts [a variety of parameters](/src/plugins/nftModule/createNft.ts) that define the on-chain data of the NFT. The only parameters required are its `name`, its `sellerFeeBasisPoints` — i.e. royalties — and the `uri` pointing to its JSON metadata — remember that you can use `uploadMetadata` to get that URI. All other parameters are optional as the SDK will do its best to provide sensible default values.
+The `create` method accepts [a variety of parameters](src/plugins/nftModule/operations/createNft.ts) that define the on-chain data of the NFT. The only parameters required are its `name`, its `sellerFeeBasisPoints` — i.e. royalties — and the `uri` pointing to its JSON metadata — remember that you can use `uploadMetadata` to get that URI. All other parameters are optional as the SDK will do its best to provide sensible default values.
 
 Here's how you can create a new NFT with minimum configuration.
 
@@ -241,7 +242,7 @@ const { nft } = await metaplex
     .create({
         uri: "https://arweave.net/123",
         name: "My NFT",
-        sellerFeeBasisPoints: 500; // Represents 5.00%.
+        sellerFeeBasisPoints: 500, // Represents 5.00%.
     })
     .run();
 ```
@@ -253,7 +254,7 @@ Additionally, since no other optional parameters were provided, it will do its b
 - It will also default to setting the identity as the first and only creator with a 100% share.
 - It will default to making the NFT mutable — meaning the update authority will be able to update it later on.
 
-If some of these default parameters are not suitable for your use case, you may provide them explicitly when creating the NFT. [Here is the exhaustive list of parameters](/src/plugins/nftModule/createNft.ts) accepted by the `create` method.
+If some of these default parameters are not suitable for your use case, you may provide them explicitly when creating the NFT. [Here is the exhaustive list of parameters](src/plugins/nftModule/operations/createNft.ts) accepted by the `create` method.
 
 ### update
 
@@ -304,7 +305,7 @@ const { nft: printedNft } = await metaplex
 By default, it will print using the token account of the original NFT as proof of ownership, and it will do so using the current `identity` of the SDK. You may customise all of these parameters by providing them explicitly.
 
 ```ts
-const { nft: printedNft } = await metaplex.nfts().printNewEdition(originalMint, {
+metaplex.nfts().printNewEdition(originalMint, {
   newMint,                   // Defaults to a brand-new Keypair.
   newUpdateAuthority,        // Defaults to the current identity.
   newOwner,                  // Defaults to the current identity.
@@ -312,6 +313,23 @@ const { nft: printedNft } = await metaplex.nfts().printNewEdition(originalMint, 
   originalTokenAccountOwner, // Defaults to the current identity.
   originalTokenAccount,      // Defaults to the associated token account of the current identity.
 });
+```
+
+Notice that, by default, update authority will be transfered to the metaplex identity. If you want the printed edition to retain the update authority of the original edition, you might want to provide it explicitly like so.
+
+```ts
+metaplex.nfts().printNewEdition(originalMint, {
+  newUpdateAuthority: originalNft.updateAuthorityAddress,
+});
+```
+
+### useNft
+
+The `use` method requires [a usable NFT](https://docs.metaplex.com/programs/token-metadata/using-nfts) and will decrease the amount of uses by one. You may also provide the `numberOfUses` parameter, if you'd like to use it more than once in the same instruction.
+
+```ts
+const { nft: usedNft } = await mx.nfts().use(nft).run(); // Use once.
+const { nft: usedNft } = await mx.nfts().use(nft, { numberOfUses: 3 }).run(); // Use three times.
 ```
 
 ### The `Nft` model
@@ -323,11 +341,11 @@ Here is an overview of the properties that are available on the `Nft` object.
 ```ts
 type Nft = Readonly<{
     model: 'nft';
-    lazy: false;
+    address: PublicKey;
     metadataAddress: Pda;
-    mintAddress: PublicKey;
     updateAuthorityAddress: PublicKey;
-    json: Option<JsonMetadata>;
+    json: Option<Json>;
+    jsonLoaded: boolean;
     name: string;
     symbol: string;
     uri: string;
@@ -337,8 +355,19 @@ type Nft = Readonly<{
     editionNonce: Option<number>;
     creators: Creator[];
     tokenStandard: Option<TokenStandard>;
-    collection: Option<Collection>;
-    uses: Option<Uses>;
+    collection: Option<{
+        address: PublicKey;
+        verified: boolean;
+    }>;
+    collectionDetails: Option<{
+        version: 'V1';
+        size: BigNumber;
+    }>;
+    uses: Option<{
+        useMethod: UseMethod;
+        remaining: BigNumber;
+        total: BigNumber;
+    }>;
     mint: {
         model: 'mint';
         address: PublicKey;
@@ -367,11 +396,11 @@ type Nft = Readonly<{
 }>
 ```
 
-Additionally, The SDK may sometimes return a `LazyNft` insteand of an `Nft` object. The `LazyNft` model contains the same data as the `Nft` model but it excludes the following properties: `json`, `mint` and `edition`. This is because they are not always needed and/or can be expensive to load. Therefore, the SDK uses the following rule of thumb:
+Additionally, The SDK may sometimes return a `Metadata` instead of an `Nft` object. The `Metadata` model contains the same data as the `Nft` model but it excludes the following properties: `json`, `mint` and `edition`. This is because they are not always needed and/or can be expensive to load. Therefore, the SDK uses the following rule of thumb:
 - If you're only fetching one NFT — e.g. by using `findByMint` — then you will receive an `Nft` object containing these properties.
-- If you're fetching multiple NFTs — e.g. by using `findAllByMintLint` — then you will receive an array of `LazyNft` that do not contain these properties.
+- If you're fetching multiple NFTs — e.g. by using `findAllByMintLint` — then you will receive an array of `Metadata` that do not contain these properties.
 
-You may obtain an `Nft` object from a `LazyNft` object by using [the `loadNft` method](#loadnft) explained above,
+You may obtain an `Nft` object from a `Metadata` object by using [the `load` method](#load) explained above,
 
 ## Candy Machines
 The Candy Machine module can be accessed via `metaplex.candyMachines()` and provides the following documented methods.
@@ -394,7 +423,7 @@ const nfts = await metaplex.candyMachines().findMintedNfts(candyMachine, { versi
 
 Note that the current implementation of this method delegates to `nfts().findAllByCreator()` whilst fetching the appropriate PDA for Candy Machines v2.
 
-Similarly to `findAllByMintList`, the returned NFTs may be `LazyNft`s.
+Similarly to `findAllByMintList`, the returned NFTs may be `Metadata`s.
 
 ## Identity
 The current identity of a `Metaplex` instance can be accessed via `metaplex.identity()` and provide information on the wallet we are acting on behalf of when interacting with the SDK.
@@ -438,7 +467,7 @@ The `keypairIdentity` driver accepts a `Keypair` object as a parameter. This is 
 
 ```ts
 import { keypairIdentity } from "@metaplex-foundation/js";
-import { Keypair } from "@safecoin/web3.js";
+import { Keypair } from "@solana/web3.js";
 
 // Load a local keypair.
 const keypairFile = fs.readFileSync('/Users/username/.config/solana/id.json');
@@ -573,10 +602,16 @@ bundlrStorage.fund(1000); // Fund using byte size.
 
 The `awsStorage` driver uploads assets off-chain to an S3 bucket of your choice.
 
-To set this up, you need to pass in the AWS client as well as the bucket name you wish to use. For instance:
+This storage driver is not bundled by the JS SDK by default, you first need to install it by running:
+
+```sh
+npm install @metaplex-foundation/js-plugin-aws
+```
+
+Then, to set this up, you need to pass in the AWS client as well as the bucket name you wish to use. For instance:
 
 ```ts
-import { awsStorage } from "@metaplex-foundation/js";
+import { awsStorage } from "@metaplex-foundation/js-plugin-aws";
 import { S3Client } from "@aws-sdk/client-s3";
 
 const awsClient = new S3Client({
@@ -613,9 +648,10 @@ metaplex.use(mockStorage());
 ## Tasks
 
 Tasks are a core component of the JS SDK and enable you to do more with your asynchronous operations. This includes:
-    - Cancelling asynchronous operations via `AbortController`s.
-    - Listening to status updates — e.g. pending, running, failed, etc.
-    - Nesting tasks together to create and keep track of more complex asynchronous operations.
+
+- Cancelling asynchronous operations via `AbortController`s.
+- Listening to status updates — e.g. pending, running, failed, etc.
+- Nesting tasks together to create and keep track of more complex asynchronous operations.
 
 The client of every module will return a `Task<T>` object where `T` is the return value you can expect when running the task using `await task.run()`.
 

@@ -1,61 +1,65 @@
-import { cusper } from '@leda-mint-io/lpl-token-metadata';
 import type { Metaplex } from '@/Metaplex';
-import { TokenMetadataProgram } from './program';
-import { TokenMetadataGpaBuilder } from './gpaBuilders';
 import { ErrorWithLogs, MetaplexPlugin } from '@/types';
+import { cusper } from '@leda-mint-io/lpl-token-metadata';
+import { TokenMetadataGpaBuilder } from './gpaBuilders';
 import { NftClient } from './NftClient';
-import { createNftOperation, createNftOperationHandler } from './createNft';
 import {
-  findNftByMintOperationHandler,
+  approveNftCollectionAuthorityOperation,
+  approveNftCollectionAuthorityOperationHandler,
+  approveNftUseAuthorityOperation,
+  approveNftUseAuthorityOperationHandler,
+  createNftOperation,
+  createNftOperationHandler,
+  createSftOperation,
+  createSftOperationHandler,
+  deleteNftOperation,
+  deleteNftOperationHandler,
+  findNftByMetadataOperation,
+  findNftByMetadataOperationHandler,
   findNftByMintOperation,
-} from './findNftByMint';
-import {
-  findNftsByCreatorOperationHandler,
+  findNftByMintOperationHandler,
+  findNftByTokenOperation,
+  findNftByTokenOperationHandler,
   findNftsByCreatorOperation,
-} from './findNftsByCreator';
-import {
-  findNftsByMintListOperationHandler,
+  findNftsByCreatorOperationHandler,
   findNftsByMintListOperation,
-} from './findNftsByMintList';
-import {
-  findNftsByOwnerOperationHandler,
+  findNftsByMintListOperationHandler,
   findNftsByOwnerOperation,
-} from './findNftsByOwner';
-import {
-  findMintWithMetadataByAddressOperation,
-  findMintWithMetadataByAddressOperationHandler,
-} from './findMintWithMetadataByAddress';
-import {
-  findMintWithMetadataByMetadataOperation,
-  findMintWithMetadataByMetadataOperationHandler,
-} from './findMintWithMetadataByMetadata';
-import {
-  findTokenWithMetadataByAddressOperation,
-  findTokenWithMetadataByAddressOperationHandler,
-} from './findTokenWithMetadataByAddress';
-import {
-  findTokenWithMetadataByMetadataOperation,
-  findTokenWithMetadataByMetadataOperationHandler,
-} from './findTokenWithMetadataByMetadata';
-import {
-  findTokenWithMetadataByMintOperation,
-  findTokenWithMetadataByMintOperationHandler,
-} from './findTokenWithMetadataByMint';
-import {
+  findNftsByOwnerOperationHandler,
+  findNftsByUpdateAuthorityOperation,
+  findNftsByUpdateAuthorityOperationHandler,
+  freezeDelegatedNftOperation,
+  freezeDelegatedNftOperationHandler,
   loadMetadataOperation,
   loadMetadataOperationHandler,
-} from './loadMetadata';
-import { loadNftOperation, loadNftOperationHandler } from './loadNft';
-import {
+  migrateToSizedCollectionNftOperation,
+  migrateToSizedCollectionNftOperationHandler,
   printNewEditionOperation,
   printNewEditionOperationHandler,
-} from './printNewEdition';
-import { updateNftOperation, updateNftOperationHandler } from './updateNft';
-import {
+  revokeNftCollectionAuthorityOperation,
+  revokeNftCollectionAuthorityOperationHandler,
+  revokeNftUseAuthorityOperation,
+  revokeNftUseAuthorityOperationHandler,
+  thawDelegatedNftOperation,
+  thawDelegatedNftOperationHandler,
+  unverifyNftCollectionOperation,
+  unverifyNftCollectionOperationHandler,
+  unverifyNftCreatorOperation,
+  unverifyNftCreatorOperationHandler,
+  updateNftOperation,
+  updateNftOperationHandler,
   uploadMetadataOperation,
   uploadMetadataOperationHandler,
-} from './uploadMetadata';
+  useNftOperation,
+  useNftOperationHandler,
+  verifyNftCollectionOperation,
+  verifyNftCollectionOperationHandler,
+  verifyNftCreatorOperation,
+  verifyNftCreatorOperationHandler,
+} from './operations';
+import { TokenMetadataProgram } from './program';
 
+/** @group Plugins */
 export const nftModule = (): MetaplexPlugin => ({
   install(metaplex: Metaplex) {
     // Token Metadata Program.
@@ -70,16 +74,20 @@ export const nftModule = (): MetaplexPlugin => ({
 
     // Operations.
     const op = metaplex.operations();
+    op.register(
+      approveNftCollectionAuthorityOperation,
+      approveNftCollectionAuthorityOperationHandler
+    );
+    op.register(
+      approveNftUseAuthorityOperation,
+      approveNftUseAuthorityOperationHandler
+    );
     op.register(createNftOperation, createNftOperationHandler);
-    op.register(
-      findMintWithMetadataByAddressOperation,
-      findMintWithMetadataByAddressOperationHandler
-    );
-    op.register(
-      findMintWithMetadataByMetadataOperation,
-      findMintWithMetadataByMetadataOperationHandler
-    );
+    op.register(createSftOperation, createSftOperationHandler);
+    op.register(deleteNftOperation, deleteNftOperationHandler);
+    op.register(findNftByMetadataOperation, findNftByMetadataOperationHandler);
     op.register(findNftByMintOperation, findNftByMintOperationHandler);
+    op.register(findNftByTokenOperation, findNftByTokenOperationHandler);
     op.register(findNftsByCreatorOperation, findNftsByCreatorOperationHandler);
     op.register(
       findNftsByMintListOperation,
@@ -87,22 +95,44 @@ export const nftModule = (): MetaplexPlugin => ({
     );
     op.register(findNftsByOwnerOperation, findNftsByOwnerOperationHandler);
     op.register(
-      findTokenWithMetadataByAddressOperation,
-      findTokenWithMetadataByAddressOperationHandler
+      findNftsByUpdateAuthorityOperation,
+      findNftsByUpdateAuthorityOperationHandler
     );
     op.register(
-      findTokenWithMetadataByMetadataOperation,
-      findTokenWithMetadataByMetadataOperationHandler
-    );
-    op.register(
-      findTokenWithMetadataByMintOperation,
-      findTokenWithMetadataByMintOperationHandler
+      freezeDelegatedNftOperation,
+      freezeDelegatedNftOperationHandler
     );
     op.register(loadMetadataOperation, loadMetadataOperationHandler);
-    op.register(loadNftOperation, loadNftOperationHandler);
+    op.register(
+      migrateToSizedCollectionNftOperation,
+      migrateToSizedCollectionNftOperationHandler
+    );
     op.register(printNewEditionOperation, printNewEditionOperationHandler);
+    op.register(
+      revokeNftCollectionAuthorityOperation,
+      revokeNftCollectionAuthorityOperationHandler
+    );
+    op.register(
+      revokeNftUseAuthorityOperation,
+      revokeNftUseAuthorityOperationHandler
+    );
+    op.register(thawDelegatedNftOperation, thawDelegatedNftOperationHandler);
+    op.register(
+      unverifyNftCollectionOperation,
+      unverifyNftCollectionOperationHandler
+    );
+    op.register(
+      unverifyNftCreatorOperation,
+      unverifyNftCreatorOperationHandler
+    );
     op.register(updateNftOperation, updateNftOperationHandler);
     op.register(uploadMetadataOperation, uploadMetadataOperationHandler);
+    op.register(useNftOperation, useNftOperationHandler);
+    op.register(
+      verifyNftCollectionOperation,
+      verifyNftCollectionOperationHandler
+    );
+    op.register(verifyNftCreatorOperation, verifyNftCreatorOperationHandler);
 
     metaplex.nfts = function () {
       return new NftClient(this);

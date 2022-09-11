@@ -1,8 +1,10 @@
 import { PublicKey } from '@safecoin/web3.js';
 import { Buffer } from 'buffer';
 import { BigNumber, Pda } from '@/types';
+import { Option } from '@/utils';
 import { AuctionHouseProgram } from './program';
 
+/** @group Pdas */
 export const findAuctionHousePda = (
   creator: PublicKey,
   treasuryMint: PublicKey,
@@ -15,6 +17,7 @@ export const findAuctionHousePda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctioneerPda = (
   auctionHouse: PublicKey,
   auctioneerAuthority: PublicKey,
@@ -27,6 +30,7 @@ export const findAuctioneerPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctionHouseProgramAsSignerPda = (
   programId: PublicKey = AuctionHouseProgram.publicKey
 ): Pda => {
@@ -36,6 +40,7 @@ export const findAuctionHouseProgramAsSignerPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctionHouseFeePda = (
   auctionHouse: PublicKey,
   programId: PublicKey = AuctionHouseProgram.publicKey
@@ -47,6 +52,7 @@ export const findAuctionHouseFeePda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctionHouseTreasuryPda = (
   auctionHouse: PublicKey,
   programId: PublicKey = AuctionHouseProgram.publicKey
@@ -58,6 +64,7 @@ export const findAuctionHouseTreasuryPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctionHouseBuyerEscrowPda = (
   auctionHouse: PublicKey,
   buyer: PublicKey,
@@ -70,21 +77,22 @@ export const findAuctionHouseBuyerEscrowPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findAuctionHouseTradeStatePda = (
   auctionHouse: PublicKey,
   wallet: PublicKey,
-  tokenAccount: PublicKey,
   treasuryMint: PublicKey,
   tokenMint: PublicKey,
   buyPrice: BigNumber,
   tokenSize: BigNumber,
+  tokenAccount?: Option<PublicKey>,
   programId: PublicKey = AuctionHouseProgram.publicKey
 ): Pda => {
   return Pda.find(programId, [
     Buffer.from('auction_house', 'utf8'),
     wallet.toBuffer(),
     auctionHouse.toBuffer(),
-    tokenAccount.toBuffer(),
+    ...(tokenAccount ? [tokenAccount.toBuffer()] : []),
     treasuryMint.toBuffer(),
     tokenMint.toBuffer(),
     buyPrice.toArrayLike(Buffer, 'le', 8),
@@ -92,6 +100,7 @@ export const findAuctionHouseTradeStatePda = (
   ]);
 };
 
+/** @group Pdas */
 export const findListingReceiptPda = (
   tradeState: PublicKey,
   programId: PublicKey = AuctionHouseProgram.publicKey
@@ -102,6 +111,7 @@ export const findListingReceiptPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findBidReceiptPda = (
   tradeState: PublicKey,
   programId: PublicKey = AuctionHouseProgram.publicKey
@@ -112,6 +122,7 @@ export const findBidReceiptPda = (
   ]);
 };
 
+/** @group Pdas */
 export const findPurchaseReceiptPda = (
   sellerTradeState: PublicKey,
   buyerTradeState: PublicKey,

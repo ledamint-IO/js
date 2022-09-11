@@ -1,6 +1,11 @@
 import { PublicKey } from '@safecoin/web3.js';
-import { MetaplexError, MetaplexErrorInputWithoutSource } from '@/errors';
+import {
+  MetaplexError,
+  MetaplexErrorInputWithoutSource,
+  MetaplexErrorOptions,
+} from '@/errors';
 
+/** @group Errors */
 export class TokenError extends MetaplexError {
   constructor(input: MetaplexErrorInputWithoutSource) {
     super({
@@ -13,10 +18,11 @@ export class TokenError extends MetaplexError {
   }
 }
 
+/** @group Errors */
 export class MintAuthorityMustBeSignerToMintInitialSupplyError extends TokenError {
-  constructor(cause?: Error) {
+  constructor(options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'mint_authority_must_be_signer_to_mint_initial_supply',
       title: 'Mint Authority Must Be Signer To Mint Initial Supply',
       problem:
@@ -30,15 +36,16 @@ export class MintAuthorityMustBeSignerToMintInitialSupplyError extends TokenErro
   }
 }
 
+/** @group Errors */
 export class TokenAndMintDoNotMatchError extends TokenError {
   constructor(
     token: PublicKey,
     tokenMint: PublicKey,
     mint: PublicKey,
-    cause?: Error
+    options?: MetaplexErrorOptions
   ) {
     super({
-      cause,
+      options,
       key: 'token_and_mint_do_not_match',
       title: 'Token And Mint Do Not Match',
       problem:

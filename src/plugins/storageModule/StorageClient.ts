@@ -8,6 +8,9 @@ import {
 } from './MetaplexFile';
 import { StorageDriver, StorageDownloadOptions } from './StorageDriver';
 
+/**
+ * @group Modules
+ */
 export class StorageClient implements HasDriver<StorageDriver> {
   private _driver: StorageDriver | null = null;
 
@@ -76,7 +79,7 @@ export class StorageClient implements HasDriver<StorageDriver> {
     try {
       return JSON.parse(file.buffer.toString());
     } catch (error) {
-      throw new InvalidJsonStringError(error as Error);
+      throw new InvalidJsonStringError({ cause: error as Error });
     }
   }
 }

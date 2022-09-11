@@ -1,219 +1,332 @@
-import { PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
-import { Task } from '@/utils';
-import { LazyMetadata, Metadata } from './Metadata';
-import { LazyNft, Nft } from './Nft';
+import { token } from '@/types';
+import { PartialKeys, Task } from '@/utils';
+import { Metadata } from '@leda-mint-io/lpl-token-metadata';
+import { PublicKey } from '@safecoin/web3.js';
+import { SendTokensInput } from '../tokenModule';
+import { toMintAddress } from './helpers';
+import { Nft, NftWithToken, Sft, SftWithToken } from './models';
+import { NftBuildersClient } from './NftBuildersClient';
 import {
+  ApproveNftCollectionAuthorityInput,
+  approveNftCollectionAuthorityOperation,
+  ApproveNftUseAuthorityInput,
+  approveNftUseAuthorityOperation,
   CreateNftInput,
   createNftOperation,
-  CreateNftOutput,
-} from './createNft';
-import {
-  FindMintWithMetadataByAddressInput,
-  findMintWithMetadataByAddressOperation,
-} from './findMintWithMetadataByAddress';
-import {
-  FindMintWithMetadataByMetadataInput,
-  findMintWithMetadataByMetadataOperation,
-} from './findMintWithMetadataByMetadata';
-import { FindNftByMintInput, findNftByMintOperation } from './findNftByMint';
-import {
-  FindNftsByMintListInput,
-  findNftsByMintListOperation,
-} from './findNftsByMintList';
-import {
-  FindNftsByOwnerInput,
-  findNftsByOwnerOperation,
-} from './findNftsByOwner';
-import {
+  CreateSftInput,
+  createSftOperation,
+  DeleteNftInput,
+  deleteNftOperation,
+  FindNftByMetadataInput,
+  findNftByMetadataOperation,
+  FindNftByMintInput,
+  findNftByMintOperation,
+  FindNftByTokenInput,
+  findNftByTokenOperation,
   FindNftsByCreatorInput,
   findNftsByCreatorOperation,
-} from './findNftsByCreator';
-import {
-  FindTokenWithMetadataByAddressInput,
-  findTokenWithMetadataByAddressOperation,
-} from './findTokenWithMetadataByAddress';
-import {
-  FindTokenWithMetadataByMetadataInput,
-  findTokenWithMetadataByMetadataOperation,
-} from './findTokenWithMetadataByMetadata';
-import {
-  FindTokenWithMetadataByMintInput,
-  findTokenWithMetadataByMintOperation,
-} from './findTokenWithMetadataByMint';
-import { loadMetadataOperation } from './loadMetadata';
-import {
+  FindNftsByMintListInput,
+  findNftsByMintListOperation,
+  FindNftsByOwnerInput,
+  findNftsByOwnerOperation,
+  FindNftsByUpdateAuthorityInput,
+  findNftsByUpdateAuthorityOperation,
+  FreezeDelegatedNftInput,
+  freezeDelegatedNftOperation,
+  LoadMetadataInput,
+  loadMetadataOperation,
+  MigrateToSizedCollectionNftInput,
+  migrateToSizedCollectionNftOperation,
+  PrintNewEditionInput,
   printNewEditionOperation,
-  PrintNewEditionOutput,
-  PrintNewEditionSharedInput,
-  PrintNewEditionViaInput,
-} from './printNewEdition';
-import {
-  UploadMetadataInput,
-  uploadMetadataOperation,
-  UploadMetadataOutput,
-} from './uploadMetadata';
-import {
+  RevokeNftCollectionAuthorityInput,
+  revokeNftCollectionAuthorityOperation,
+  RevokeNftUseAuthorityInput,
+  revokeNftUseAuthorityOperation,
+  ThawDelegatedNftInput,
+  thawDelegatedNftOperation,
+  UnverifyNftCollectionInput,
+  unverifyNftCollectionOperation,
+  UnverifyNftCreatorInput,
+  unverifyNftCreatorOperation,
   UpdateNftInput,
   updateNftOperation,
-  UpdateNftOutput,
-} from './updateNft';
-import { LoadNftInput, loadNftOperation } from './loadNft';
+  UploadMetadataInput,
+  uploadMetadataOperation,
+  UseNftInput,
+  useNftOperation,
+  VerifyNftCollectionInput,
+  verifyNftCollectionOperation,
+  VerifyNftCreatorInput,
+  verifyNftCreatorOperation,
+} from './operations';
 
+/**
+ * This is a client for the NFT module.
+ *
+ * It enables us to interact with the Token Metadata program in order to
+ * manage NFTs and SFTs.
+ *
+ * You may access this client via the `nfts()` method of your `Metaplex` instance.
+ *
+ * ```ts
+ * const nftClient = metaplex.nfts();
+ * ```
+ *
+ * @example
+ * You can upload some custom JSON metadata and use its URI to create
+ * a new NFT like so. The owner and update authority of this NFT will,
+ * by default, be the current identity of the metaplex instance.
+ *
+ * ```ts
+ * const { uri } = await metaplex
+ *   .nfts()
+ *   .uploadMetadata({
+ *     name: "My off-chain name",
+ *     description: "My off-chain description",
+ *     image: "https://arweave.net/123",
+ *   })
+ *   .run();
+ *
+ * const { nft } = await metaplex
+ *   .nfts()
+ *   .create({
+ *     uri,
+ *     name: 'My on-chain NFT',
+ *     sellerFeeBasisPoints: 250, // 2.5%
+ *   })
+ *   .run();
+ * ```
+ *
+ * @group Modules
+ */
 export class NftClient {
   constructor(protected readonly metaplex: Metaplex) {}
 
-  create(input: CreateNftInput): Task<CreateNftOutput & { nft: Nft }> {
-    return new Task(async (scope) => {
-      const operation = createNftOperation(input);
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const nft = await this.findByMint(output.mintSigner.publicKey).run(scope);
-      return { ...output, nft };
-    });
+  /**
+   * You may use the `builders()` client to access the
+   * underlying Transaction Builders of this module.
+   *
+   * ```ts
+   * const buildersClient = metaplex.nfts().builders();
+   * ```
+   */
+  builders() {
+    return new NftBuildersClient(this.metaplex);
   }
 
-  findByMint(
-    mint: PublicKey,
-    options?: Omit<FindNftByMintInput, 'mint'>
-  ): Task<Nft> {
+  // -----------------
+  // Queries
+  // -----------------
+
+  /** {@inheritDoc findNftByMintOperation} */
+  findByMint(input: FindNftByMintInput) {
+    return this.metaplex.operations().getTask(findNftByMintOperation(input));
+  }
+
+  /** {@inheritDoc findNftByMetadataOperation} */
+  findByMetadata(input: FindNftByMetadataInput) {
     return this.metaplex
       .operations()
-      .getTask(findNftByMintOperation({ mint, ...options }));
+      .getTask(findNftByMetadataOperation(input));
   }
 
-  findAllByMintList(
-    mints: PublicKey[],
-    options?: Omit<FindNftsByMintListInput, 'mints'>
-  ) {
+  /** {@inheritDoc findNftByTokenOperation} */
+  findByToken(input: FindNftByTokenInput) {
+    return this.metaplex.operations().getTask(findNftByTokenOperation(input));
+  }
+
+  /** {@inheritDoc findNftsByCreatorOperation} */
+  findAllByCreator(input: FindNftsByCreatorInput) {
     return this.metaplex
       .operations()
-      .getTask(findNftsByMintListOperation({ mints, ...options }));
+      .getTask(findNftsByCreatorOperation(input));
   }
 
-  findAllByOwner(
-    owner: PublicKey,
-    options?: Omit<FindNftsByOwnerInput, 'owner'>
-  ) {
+  /** {@inheritDoc findNftsByMintListOperation} */
+  findAllByMintList(input: FindNftsByMintListInput) {
     return this.metaplex
       .operations()
-      .getTask(findNftsByOwnerOperation({ owner, ...options }));
+      .getTask(findNftsByMintListOperation(input));
   }
 
-  findAllByCreator(
-    creator: PublicKey,
-    options?: Omit<FindNftsByCreatorInput, 'creator'>
-  ) {
+  /** {@inheritDoc findNftsByOwnerOperation} */
+  findAllByOwner(input: FindNftsByOwnerInput) {
+    return this.metaplex.operations().getTask(findNftsByOwnerOperation(input));
+  }
+
+  /** {@inheritDoc findNftsByUpdateAuthorityOperation} */
+  findAllByUpdateAuthority(input: FindNftsByUpdateAuthorityInput) {
     return this.metaplex
       .operations()
-      .getTask(findNftsByCreatorOperation({ creator, ...options }));
+      .getTask(findNftsByUpdateAuthorityOperation(input));
   }
 
-  findMintWithMetadataByAddress(
-    address: PublicKey,
-    options?: Omit<FindMintWithMetadataByAddressInput, 'address'>
-  ) {
-    return this.metaplex
-      .operations()
-      .getTask(findMintWithMetadataByAddressOperation({ address, ...options }));
+  /** {@inheritDoc loadMetadataOperation} */
+  load(input: LoadMetadataInput) {
+    return this.metaplex.operations().getTask(loadMetadataOperation(input));
   }
 
-  findMintWithMetadataByMetadata(
-    metadataAddress: PublicKey,
-    options?: Omit<FindMintWithMetadataByMetadataInput, 'address'>
-  ) {
-    return this.metaplex
-      .operations()
-      .getTask(
-        findMintWithMetadataByMetadataOperation({ metadataAddress, ...options })
-      );
-  }
-
-  findTokenWithMetadataByAddress(
-    address: PublicKey,
-    options?: Omit<FindTokenWithMetadataByAddressInput, 'address'>
-  ) {
-    return this.metaplex
-      .operations()
-      .getTask(
-        findTokenWithMetadataByAddressOperation({ address, ...options })
-      );
-  }
-
-  findTokenWithMetadataByMetadata(
-    metadataAddress: PublicKey,
-    ownerAddress: PublicKey,
-    options?: Omit<
-      FindTokenWithMetadataByMetadataInput,
-      'metadataAddress' | 'ownerAddress'
+  /**
+   * Helper method that refetches a given model
+   * and returns an instance of the same type.
+   *
+   * ```ts
+   * nft = await metaplex.nfts().refresh(nft).run();
+   * sft = await metaplex.nfts().refresh(sft).run();
+   * nftWithToken = await metaplex.nfts().refresh(nftWithToken).run();
+   * ```
+   */
+  refresh<
+    T extends Nft | Sft | NftWithToken | SftWithToken | Metadata | PublicKey
+  >(
+    model: T,
+    input?: Omit<
+      FindNftByMintInput,
+      'mintAddress' | 'tokenAddres' | 'tokenOwner'
     >
-  ) {
-    return this.metaplex.operations().getTask(
-      findTokenWithMetadataByMetadataOperation({
-        metadataAddress,
-        ownerAddress,
-        ...options,
-      })
-    );
+  ): Task<T extends Metadata | PublicKey ? Nft | Sft : T> {
+    return this.findByMint({
+      mintAddress: toMintAddress(model),
+      tokenAddress: 'token' in model ? model.token.address : undefined,
+      ...input,
+    }) as Task<T extends Metadata | PublicKey ? Nft | Sft : T>;
   }
 
-  findTokenWithMetadataByMint(
-    mintAddress: PublicKey,
-    ownerAddress: PublicKey,
-    options?: Omit<
-      FindTokenWithMetadataByMintInput,
-      'metadataAddress' | 'ownerAddress'
-    >
-  ) {
-    return this.metaplex.operations().getTask(
-      findTokenWithMetadataByMintOperation({
-        mintAddress,
-        ownerAddress,
-        ...options,
-      })
-    );
+  // -----------------
+  // Create, Update and Delete
+  // -----------------
+
+  /** {@inheritDoc createNftOperation} */
+  create(input: CreateNftInput) {
+    return this.metaplex.operations().getTask(createNftOperation(input));
   }
 
-  loadMetadata(metadata: LazyMetadata): Task<Metadata> {
-    return this.metaplex
-      .operations()
-      .getTask(loadMetadataOperation({ metadata }));
+  /** {@inheritDoc createSftOperation} */
+  createSft(input: CreateSftInput) {
+    return this.metaplex.operations().getTask(createSftOperation(input));
   }
 
-  loadNft(nft: LazyNft, options: Omit<LoadNftInput, 'nft'>): Task<Nft> {
-    return this.metaplex
-      .operations()
-      .getTask(loadNftOperation({ nft, ...options }));
+  /** {@inheritDoc printNewEditionOperation} */
+  printNewEdition(input: PrintNewEditionInput) {
+    return this.metaplex.operations().getTask(printNewEditionOperation(input));
   }
 
-  printNewEdition(
-    originalNft: Nft | LazyNft | PublicKey,
-    input: Omit<PrintNewEditionSharedInput, 'originalNft'> &
-      PrintNewEditionViaInput = {}
-  ): Task<PrintNewEditionOutput & { nft: Nft }> {
-    return new Task(async (scope) => {
-      const operation = printNewEditionOperation({ originalNft, ...input });
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const nft = await this.findByMint(output.mintSigner.publicKey).run(scope);
-      return { ...output, nft };
-    });
-  }
-
-  uploadMetadata(input: UploadMetadataInput): Task<UploadMetadataOutput> {
+  /** {@inheritDoc uploadMetadataOperation} */
+  uploadMetadata(input: UploadMetadataInput) {
     return this.metaplex.operations().getTask(uploadMetadataOperation(input));
   }
 
-  update(
-    nft: Nft | LazyNft,
-    input: Omit<UpdateNftInput, 'nft'>
-  ): Task<UpdateNftOutput & { nft: Nft }> {
-    return new Task(async (scope) => {
-      const operation = updateNftOperation({ ...input, nft });
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const updatedNft = await this.findByMint(nft.mintAddress).run(scope);
-      return { ...output, nft: updatedNft };
+  /** {@inheritDoc updateNftOperation} */
+  update(input: UpdateNftInput) {
+    return this.metaplex.operations().getTask(updateNftOperation(input));
+  }
+
+  /** {@inheritDoc deleteNftOperation} */
+  delete(input: DeleteNftInput) {
+    return this.metaplex.operations().getTask(deleteNftOperation(input));
+  }
+
+  // -----------------
+  // Use
+  // -----------------
+
+  /** {@inheritDoc useNftOperation} */
+  use(input: UseNftInput) {
+    return this.metaplex.operations().getTask(useNftOperation(input));
+  }
+
+  /** {@inheritDoc approveNftUseAuthorityOperation} */
+  approveUseAuthority(input: ApproveNftUseAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(approveNftUseAuthorityOperation(input));
+  }
+
+  /** {@inheritDoc revokeNftUseAuthorityOperation} */
+  revokeUseAuthority(input: RevokeNftUseAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(revokeNftUseAuthorityOperation(input));
+  }
+
+  // -----------------
+  // Creators
+  // -----------------
+
+  /** {@inheritDoc verifyNftCreatorOperation} */
+  verifyCreator(input: VerifyNftCreatorInput) {
+    return this.metaplex.operations().getTask(verifyNftCreatorOperation(input));
+  }
+
+  /** {@inheritDoc unverifyNftCreatorOperation} */
+  unverifyCreator(input: UnverifyNftCreatorInput) {
+    return this.metaplex
+      .operations()
+      .getTask(unverifyNftCreatorOperation(input));
+  }
+
+  // -----------------
+  // Collections
+  // -----------------
+
+  /** {@inheritDoc verifyNftCollectionOperation} */
+  verifyCollection(input: VerifyNftCollectionInput) {
+    return this.metaplex
+      .operations()
+      .getTask(verifyNftCollectionOperation(input));
+  }
+
+  /** {@inheritDoc unverifyNftCollectionOperation} */
+  unverifyCollection(input: UnverifyNftCollectionInput) {
+    return this.metaplex
+      .operations()
+      .getTask(unverifyNftCollectionOperation(input));
+  }
+
+  /** {@inheritDoc approveNftCollectionAuthorityOperation} */
+  approveCollectionAuthority(input: ApproveNftCollectionAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(approveNftCollectionAuthorityOperation(input));
+  }
+
+  /** {@inheritDoc revokeNftCollectionAuthorityOperation} */
+  revokeCollectionAuthority(input: RevokeNftCollectionAuthorityInput) {
+    return this.metaplex
+      .operations()
+      .getTask(revokeNftCollectionAuthorityOperation(input));
+  }
+
+  /** {@inheritDoc migrateToSizedCollectionNftOperation} */
+  migrateToSizedCollection(input: MigrateToSizedCollectionNftInput) {
+    return this.metaplex
+      .operations()
+      .getTask(migrateToSizedCollectionNftOperation(input));
+  }
+
+  // -----------------
+  // Tokens
+  // -----------------
+
+  /** {@inheritDoc freezeDelegatedNftOperation} */
+  freezeDelegatedNft(input: FreezeDelegatedNftInput) {
+    return this.metaplex
+      .operations()
+      .getTask(freezeDelegatedNftOperation(input));
+  }
+
+  /** {@inheritDoc thawDelegatedNftOperation} */
+  thawDelegatedNft(input: ThawDelegatedNftInput) {
+    return this.metaplex.operations().getTask(thawDelegatedNftOperation(input));
+  }
+
+  /** {@inheritDoc sendTokensOperation} */
+  send(input: PartialKeys<SendTokensInput, 'amount'>) {
+    return this.metaplex.tokens().send({
+      ...input,
+      amount: token(1),
     });
   }
 }

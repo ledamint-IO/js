@@ -1,3 +1,4 @@
+
 import mime from 'mime';
 
 // eslint-disable-next-line no-control-regex

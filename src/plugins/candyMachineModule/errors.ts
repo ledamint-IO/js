@@ -1,9 +1,14 @@
-import { MetaplexError, MetaplexErrorInputWithoutSource } from '@/errors';
-import { CandyMachineItem, EndSettings } from './CandyMachine';
+import {
+  MetaplexError,
+  MetaplexErrorInputWithoutSource,
+  MetaplexErrorOptions,
+} from '@/errors';
+import { CandyMachineItem, CandyMachineEndSettings } from './models';
 import { BigNumber, DateTime, formatDateTime } from '@/types';
 import { Option } from '@/utils';
 import { EndSettingType } from '@leda-mint-io/lpl-candy-machine';
 
+/** @group Errors */
 export class CandyMachineError extends MetaplexError {
   constructor(input: MetaplexErrorInputWithoutSource) {
     super({
@@ -16,10 +21,15 @@ export class CandyMachineError extends MetaplexError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineIsFullError extends CandyMachineError {
-  constructor(assetIndex: BigNumber, itemsAvailable: BigNumber, cause?: Error) {
+  constructor(
+    assetIndex: BigNumber,
+    itemsAvailable: BigNumber,
+    options?: MetaplexErrorOptions
+  ) {
     super({
-      cause,
+      options,
       key: 'candy_machine_is_full',
       title: 'Candy Machine Is Full',
       problem:
@@ -31,10 +41,11 @@ export class CandyMachineIsFullError extends CandyMachineError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineIsEmptyError extends CandyMachineError {
-  constructor(itemsAvailable: BigNumber, cause?: Error) {
+  constructor(itemsAvailable: BigNumber, options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'candy_machine_is_empty',
       title: 'Candy Machine Is Empty',
       problem:
@@ -45,15 +56,16 @@ export class CandyMachineIsEmptyError extends CandyMachineError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineCannotAddAmountError extends CandyMachineError {
   constructor(
     index: BigNumber,
     amount: number,
     itemsAvailable: BigNumber,
-    cause?: Error
+    options?: MetaplexErrorOptions
   ) {
     super({
-      cause,
+      options,
       key: 'candy_machine_cannot_add_amount',
       title: 'Candy Machine Cannot Add Amount',
       problem: `Trying to add ${amount} assets to candy machine that already has ${index} assets and can only hold ${itemsAvailable} assets.`,
@@ -63,10 +75,15 @@ export class CandyMachineCannotAddAmountError extends CandyMachineError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineAddItemConstraintsViolatedError extends CandyMachineError {
-  constructor(index: BigNumber, item: CandyMachineItem, cause?: Error) {
+  constructor(
+    index: BigNumber,
+    item: CandyMachineItem,
+    options?: MetaplexErrorOptions
+  ) {
     super({
-      cause,
+      options,
       key: 'candy_machine_add_item_constraints_violated',
       title: 'Candy Machine Add Item Constraints Violated',
       problem: `Trying to add an asset with name "${item.name}" and uri: "${item.uri}" to candy machine at index ${index} that violates constraints.`,
@@ -75,26 +92,11 @@ export class CandyMachineAddItemConstraintsViolatedError extends CandyMachineErr
   }
 }
 
-export class CandyMachineAuthorityRequiredAsASignerError extends CandyMachineError {
-  constructor(cause?: Error) {
-    super({
-      cause,
-      key: 'candy_machine_authority_required_as_a_signer',
-      title: 'Candy Machine Authority Required As A Signer',
-      problem:
-        'You are trying to create a Candy Machine with a Collection NFT. ' +
-        'In order for the Collection NFT to be set successfully, you must provide the authority as a Signer.',
-      solution:
-        'Please provide the "authority" parameter as a Signer if you want to set the Collection NFT upon creation. ' +
-        'Alternatively, you may remove the "collection" parameter to create a Candy Machine without an associated Collection NFT.',
-    });
-  }
-}
-
+/** @group Errors */
 export class CandyMachineNotLiveError extends CandyMachineError {
-  constructor(goLiveDate: Option<DateTime>, cause?: Error) {
+  constructor(goLiveDate: Option<DateTime>, options?: MetaplexErrorOptions) {
     super({
-      cause,
+      options,
       key: 'candy_machine_not_live',
       title: 'Candy Machine Not Live',
       problem:
@@ -110,8 +112,12 @@ export class CandyMachineNotLiveError extends CandyMachineError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineEndedError extends CandyMachineError {
-  constructor(endSetting: EndSettings, cause?: Error) {
+  constructor(
+    endSetting: CandyMachineEndSettings,
+    options?: MetaplexErrorOptions
+  ) {
     const endSettingType =
       endSetting.endSettingType === EndSettingType.Amount ? 'Amount' : 'Date';
     const endSettingExplanation =
@@ -119,7 +125,7 @@ export class CandyMachineEndedError extends CandyMachineError {
         ? `All ${endSetting.number} items have been minted.`
         : `It ended on ${formatDateTime(endSetting.date)}.`;
     super({
-      cause,
+      options,
       key: 'candy_machine_ended',
       title: 'Candy Machine Ended',
       problem:
@@ -130,10 +136,15 @@ export class CandyMachineEndedError extends CandyMachineError {
   }
 }
 
+/** @group Errors */
 export class CandyMachineBotTaxError extends CandyMachineError {
-  constructor(explorerLink: string, cause: Error) {
+  constructor(
+    explorerLink: string,
+    cause: Error,
+    options?: Omit<MetaplexErrorOptions, 'cause'>
+  ) {
     super({
-      cause,
+      options: { ...options, cause },
       key: 'candy_machine_bot_tax',
       title: 'Candy Machine Bot Tax',
       problem:

@@ -39,10 +39,15 @@ test('[Amount] it can be formatted', (t: Test) => {
   const usdAmount = amount(1536, { symbol: 'USD', decimals: 2 });
   const gbpAmount = amount(4210, { symbol: 'GBP', decimals: 2 });
   const solAmount = amount(2_500_000_000, { symbol: 'SOL', decimals: 9 });
+  const solAmountLeadingZeroDecimal = amount(2_005_000_000, {
+    symbol: 'SOL',
+    decimals: 9,
+  });
 
   t.equal(formatAmount(usdAmount), 'USD 15.36');
   t.equal(formatAmount(gbpAmount), 'GBP 42.10');
   t.equal(formatAmount(solAmount), 'SOL 2.500000000');
+  t.equal(formatAmount(solAmountLeadingZeroDecimal), 'SOL 2.005000000');
   t.end();
 });
 
@@ -57,7 +62,7 @@ test('[Amount] it has helpers for certain currencies', (t: Test) => {
 });
 
 test('[Amount] it can create amounts representing SPL tokens', (t: Test) => {
-  t.equal(token(1).currency.namespace, 'safe-token');
+  t.equal(token(1).currency.namespace, 'spl-token');
   amountEquals(t, token(1), 'Token 1');
   amountEquals(t, token(4.5, 2), 'Token 4.50');
   amountEquals(t, token(6.2587, 9, 'DGEN'), 'DGEN 6.258700000');
@@ -80,6 +85,7 @@ test('[Amount] it can add and subtract amounts together', (t: Test) => {
 
 test('[Amount] it fail to operate on amounts of different currencies', (t: Test) => {
   try {
+    // @ts-ignore because we want to test the error.
     addAmounts(sol(1), usd(1));
     t.fail();
   } catch (error) {

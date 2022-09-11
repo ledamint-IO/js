@@ -17,15 +17,20 @@ test('[candyMachineModule] it can add items to a candy machine', async (t) => {
   });
 
   // When we add two items to the Candy Machine.
-  const { candyMachine: updatedCandyMachine } = await mx
+  await mx
     .candyMachines()
-    .insertItems(candyMachine, {
+    .insertItems({
+      candyMachine,
       authority: mx.identity(),
       items: [
         { name: 'Degen #1', uri: 'https://example.com/degen/1' },
         { name: 'Degen #2', uri: 'https://example.com/degen/2' },
       ],
     })
+    .run();
+  const updatedCandyMachine = await mx
+    .candyMachines()
+    .refresh(candyMachine)
     .run();
 
   // Then the Candy Machine has been updated properly.
@@ -48,7 +53,8 @@ test('[candyMachineModule] it cannot add items that would make the candy machine
   // When we try to add 3 items to the Candy Machine.
   const promise = mx
     .candyMachines()
-    .insertItems(candyMachine, {
+    .insertItems({
+      candyMachine,
       authority: mx.identity(),
       items: [
         { name: 'Degen #1', uri: 'https://example.com/degen/1' },
@@ -76,7 +82,8 @@ test('[candyMachineModule] it cannot add items once the candy machine is fully l
   // When we try to add one more item to the Candy Machine.
   const promise = mx
     .candyMachines()
-    .insertItems(candyMachine, {
+    .insertItems({
+      candyMachine,
       authority: mx.identity(),
       items: [{ name: 'Degen #3', uri: 'https://example.com/degen/3' }],
     })
@@ -94,7 +101,8 @@ test('[candyMachineModule] it cannot add items if either of them have a name or 
   // When we try to add items that are too long.
   const promise = mx
     .candyMachines()
-    .insertItems(candyMachine, {
+    .insertItems({
+      candyMachine,
       authority: mx.identity(),
       items: [
         { name: 'Degen #1', uri: 'https://example.com/degen/1' },
@@ -123,9 +131,10 @@ test('[candyMachineModule] it can add items to a custom offset and override exis
   });
 
   // When we add 2 items to the Candy Machine at index 1.
-  const { candyMachine: updatedCandyMachine } = await mx
+  await mx
     .candyMachines()
-    .insertItems(candyMachine, {
+    .insertItems({
+      candyMachine,
       authority: mx.identity(),
       index: toBigNumber(1),
       items: [
@@ -133,6 +142,10 @@ test('[candyMachineModule] it can add items to a custom offset and override exis
         { name: 'Degen #4', uri: 'https://example.com/degen/4' },
       ],
     })
+    .run();
+  const updatedCandyMachine = await mx
+    .candyMachines()
+    .refresh(candyMachine)
     .run();
 
   // Then the Candy Machine has been updated properly.

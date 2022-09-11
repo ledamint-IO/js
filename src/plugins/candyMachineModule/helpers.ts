@@ -4,7 +4,7 @@ import {
   configLineBeet,
 } from '@leda-mint-io/lpl-candy-machine';
 import { CONFIG_ARRAY_START, CONFIG_LINE_SIZE } from './constants';
-import { CandyMachineItem } from './CandyMachine';
+import { CandyMachineItem } from './models';
 import { removeEmptyChars } from '@/utils';
 import { BigNumber, toBigNumber } from '@/types';
 

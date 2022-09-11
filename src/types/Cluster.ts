@@ -8,14 +8,12 @@ export type Cluster =
   | 'custom';
 
 const MAINNET_BETA_DOMAINS = [
-  'api.mainnet-beta.solana.com',
-  'ssc-dao.genesysgo.net',
+  'api.mainnet-beta.safecoin.org',
 ];
 const DEVNET_DOMAINS = [
-  'api.devnet.solana.com',
-  'psytrbhymqlkfrhudd.dev.genesysgo.net',
+  'api.devnet.safecoin.org',
 ];
-const TESTNET_DOMAINS = ['api.testnet.solana.com'];
+const TESTNET_DOMAINS = ['api.testnet.safecoin.org'];
 const LOCALNET_DOMAINS = ['localhost', '127.0.0.1'];
 
 export const resolveClusterFromConnection = (

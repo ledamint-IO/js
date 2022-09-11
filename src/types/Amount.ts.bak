@@ -1,4 +1,4 @@
-import { LAMPORTS_PER_SAFE } from '@safecoin/web3.js';
+import { LAMPORTS_PER_SOL } from '@safecoin/web3.js';
 import BN from 'bn.js';
 import { CurrencyMismatchError, UnexpectedCurrencyError } from '@/errors';
 import { BigNumber, BigNumberValues, toBigNumber } from './BigNumber';
@@ -21,6 +21,7 @@ export type SplTokenCurrency = {
 };
 export type SplTokenAmount = Amount<SplTokenCurrency>;
 
+/** @group Constants */
 export const SOL = {
   symbol: 'SOL',
   decimals: 9,
@@ -28,10 +29,11 @@ export const SOL = {
 export type SolCurrency = typeof SOL;
 export type SolAmount = Amount<SolCurrency>;
 
+/** @group Constants */
 export const USD = {
   symbol: 'USD',
   decimals: 2,
-};
+} as const;
 export type UsdCurrency = typeof USD;
 export type UsdAmount = Amount<UsdCurrency>;
 
@@ -50,7 +52,7 @@ export const lamports = (lamports: BigNumberValues): SolAmount => {
 };
 
 export const sol = (sol: number): SolAmount => {
-  return lamports(sol * LAMPORTS_PER_SAFE);
+  return lamports(sol * LAMPORTS_PER_SOL);
 };
 
 export const usd = (usd: number): UsdAmount => {
@@ -242,7 +244,9 @@ export const formatAmount = (value: Amount): string => {
   };
 
   const { div, mod } = basisPoints.divmod(power);
-  const units = `${div.toString()}.${mod.abs().toString()}`;
+  const units = `${div.toString()}.${mod
+    .abs()
+    .toString(10, value.currency.decimals)}`;
 
   return `${value.currency.symbol} ${units}`;
 };

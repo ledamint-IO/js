@@ -1,201 +1,139 @@
-import type { PublicKey } from '@safecoin/web3.js';
 import type { Metaplex } from '@/Metaplex';
-import { CandyMachinesBuildersClient } from './CandyMachinesBuildersClient';
-import { LazyNft, Nft } from '../nftModule';
+import { toPublicKey } from '@/types';
 import { Task } from '@/utils';
-import { CandyMachine } from './CandyMachine';
+import type { PublicKey } from '@safecoin/web3.js';
+import { CandyMachinesBuildersClient } from './CandyMachinesBuildersClient';
+import { CandyMachine } from './models';
 import {
   CreateCandyMachineInput,
-  CreateCandyMachineInputWithoutConfigs,
   createCandyMachineOperation,
-  CreateCandyMachineOutput,
-} from './createCandyMachine';
-import {
-  CandyMachineJsonConfigs,
-  toCandyMachineConfigsFromJson,
-} from './CandyMachineJsonConfigs';
-import {
-  findCandyMachineByAddressOperation,
+  DeleteCandyMachineInput,
+  deleteCandyMachineOperation,
   FindCandyMachineByAddressInput,
-} from './findCandyMachineByAddress';
-import {
+  findCandyMachineByAddressOperation,
   FindCandyMachinesByPublicKeyFieldInput,
   findCandyMachinesByPublicKeyFieldOperation,
-} from './findCandyMachinesByPublicKeyField';
-import {
   FindMintedNftsByCandyMachineInput,
   findMintedNftsByCandyMachineOperation,
-} from './findMintedNftsByCandyMachine';
-import {
   InsertItemsToCandyMachineInput,
   insertItemsToCandyMachineOperation,
-  InsertItemsToCandyMachineOutput,
-} from './insertItemsToCandyMachine';
-import {
-  UpdateCandyMachineInput,
-  UpdateCandyMachineInputWithoutConfigs,
-  updateCandyMachineOperation,
-  UpdateCandyMachineOutput,
-} from './updateCandyMachine';
-import {
   MintCandyMachineInput,
   mintCandyMachineOperation,
-  MintCandyMachineOutput,
-} from './mintCandyMachine';
-import { CandyMachineBotTaxError } from './errors';
+  UpdateCandyMachineInput,
+  updateCandyMachineOperation,
+} from './operations';
 
+/**
+ * This is a client for the Candy Machine module.
+ *
+ * It enables us to interact with the Candy Machine program in order to
+ * create, update and delete Candy Machines as well as mint from them.
+ *
+ * You may access this client via the `candyMachines()` method of your `Metaplex` instance.
+ *
+ * ```ts
+ * const candyMachineClient = metaplex.candyMachines();
+ * ```
+ *
+ * @example
+ * You can create a new Candy Machine with minimum input like so.
+ * By default, the current identity of the Metaplex instance will be
+ * the authority of the Candy Machine.
+ *
+ * ```ts
+ * const { candyMachine } = await metaplex
+ *   .candyMachines()
+ *   .create({
+ *     sellerFeeBasisPoints: 500, // 5% royalties
+ *     price: sol(1.3), // 1.3 SOL
+ *     itemsAvailable: toBigNumber(1000), // 1000 items available
+ *   })
+ *   .run();
+ * ```
+ *
+ * @see {@link CandyMachine} The `CandyMachine` model
+ * @group Modules
+ */
 export class CandyMachinesClient {
   constructor(readonly metaplex: Metaplex) {}
 
+  /**
+   * You may use the `builders()` client to access the
+   * underlying Transaction Builders of this module.
+   *
+   * ```ts
+   * const buildersClient = metaplex.candyMachines().builders();
+   * ```
+   */
   builders() {
     return new CandyMachinesBuildersClient(this.metaplex);
   }
 
-  create(
-    input: CreateCandyMachineInput
-  ): Task<CreateCandyMachineOutput & { candyMachine: CandyMachine }> {
-    return new Task(async (scope) => {
-      const operation = createCandyMachineOperation(input);
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const candyMachine = await this.findByAddress(
-        output.candyMachineSigner.publicKey
-      ).run(scope);
-      return { ...output, candyMachine };
-    });
+  /** {@inheritDoc createCandyMachineOperation} */
+  create(input: CreateCandyMachineInput) {
+    return this.metaplex
+      .operations()
+      .getTask(createCandyMachineOperation(input));
   }
 
-  createFromJsonConfig(
-    input: CreateCandyMachineInputWithoutConfigs & {
-      json: CandyMachineJsonConfigs;
-    }
-  ) {
-    const { json, ...otherInputs } = input;
-    const configs = toCandyMachineConfigsFromJson(json);
-    return this.create({ ...otherInputs, ...configs });
+  /** {@inheritDoc deleteCandyMachineOperation} */
+  delete(input: DeleteCandyMachineInput) {
+    return this.metaplex
+      .operations()
+      .getTask(deleteCandyMachineOperation(input));
   }
 
-  findAllByWallet(
-    wallet: PublicKey,
-    options?: Omit<FindCandyMachinesByPublicKeyFieldInput, 'type' | 'publicKey'>
-  ): Task<CandyMachine[]> {
-    return this.metaplex.operations().getTask(
-      findCandyMachinesByPublicKeyFieldOperation({
-        type: 'wallet',
-        publicKey: wallet,
-        ...options,
-      })
-    );
+  /** {@inheritDoc findCandyMachinesByPublicKeyFieldOperation} */
+  findAllBy(input: FindCandyMachinesByPublicKeyFieldInput) {
+    return this.metaplex
+      .operations()
+      .getTask(findCandyMachinesByPublicKeyFieldOperation(input));
   }
 
-  findAllByAuthority(
-    authority: PublicKey,
-    options?: Omit<FindCandyMachinesByPublicKeyFieldInput, 'type' | 'publicKey'>
-  ): Task<CandyMachine[]> {
-    return this.metaplex.operations().getTask(
-      findCandyMachinesByPublicKeyFieldOperation({
-        type: 'authority',
-        publicKey: authority,
-        ...options,
-      })
-    );
+  /** {@inheritDoc findCandyMachineByAddressOperation} */
+  findByAddress(input: FindCandyMachineByAddressInput): Task<CandyMachine> {
+    return this.metaplex
+      .operations()
+      .getTask(findCandyMachineByAddressOperation(input));
   }
 
-  findByAddress(
-    address: PublicKey,
-    options?: Omit<FindCandyMachineByAddressInput, 'type' | 'publicKey'>
+  /** {@inheritDoc findMintedNftsByCandyMachineOperation} */
+  findMintedNfts(input: FindMintedNftsByCandyMachineInput) {
+    return this.metaplex
+      .operations()
+      .getTask(findMintedNftsByCandyMachineOperation(input));
+  }
+
+  /** {@inheritDoc insertItemsToCandyMachineOperation} */
+  insertItems(input: InsertItemsToCandyMachineInput) {
+    return this.metaplex
+      .operations()
+      .getTask(insertItemsToCandyMachineOperation(input));
+  }
+
+  /** {@inheritDoc mintCandyMachineOperation} */
+  mint(input: MintCandyMachineInput) {
+    return this.metaplex.operations().getTask(mintCandyMachineOperation(input));
+  }
+
+  /**
+   * Helper method that refetches a given Candy Machine.
+   *
+   * ```ts
+   * const candyMachine = await metaplex.candyMachines().refresh(candyMachine).run();
+   * ```
+   */
+  refresh(
+    candyMachine: CandyMachine | PublicKey,
+    input?: Omit<FindCandyMachineByAddressInput, 'address'>
   ): Task<CandyMachine> {
+    return this.findByAddress({ address: toPublicKey(candyMachine), ...input });
+  }
+
+  /** {@inheritDoc updateCandyMachineOperation} */
+  update(input: UpdateCandyMachineInput) {
     return this.metaplex
       .operations()
-      .getTask(findCandyMachineByAddressOperation({ address, ...options }));
-  }
-
-  findMintedNfts(
-    candyMachine: PublicKey,
-    options?: Omit<FindMintedNftsByCandyMachineInput, 'candyMachine'>
-  ): Task<(LazyNft | Nft)[]> {
-    return this.metaplex
-      .operations()
-      .getTask(
-        findMintedNftsByCandyMachineOperation({ candyMachine, ...options })
-      );
-  }
-
-  insertItems(
-    candyMachine: CandyMachine,
-    input: Omit<InsertItemsToCandyMachineInput, 'candyMachine'>
-  ): Task<InsertItemsToCandyMachineOutput & { candyMachine: CandyMachine }> {
-    return new Task(async (scope) => {
-      const operation = insertItemsToCandyMachineOperation({
-        candyMachine,
-        ...input,
-      });
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-      const updatedCandyMachine = await this.findByAddress(
-        candyMachine.address
-      ).run();
-      return { candyMachine: updatedCandyMachine, ...output };
-    });
-  }
-
-  mint(
-    candyMachine: CandyMachine,
-    input: Omit<MintCandyMachineInput, 'candyMachine'> = {}
-  ): Task<MintCandyMachineOutput & { nft: Nft; candyMachine: CandyMachine }> {
-    return new Task(async (scope) => {
-      const operation = mintCandyMachineOperation({ candyMachine, ...input });
-      const output = await this.metaplex.operations().execute(operation, scope);
-      scope.throwIfCanceled();
-
-      let nft: Nft;
-      try {
-        nft = await this.metaplex
-          .nfts()
-          .findByMint(output.mintSigner.publicKey)
-          .run(scope);
-      } catch (error) {
-        throw new CandyMachineBotTaxError(
-          this.metaplex.rpc().getSolanaExporerUrl(output.response.signature),
-          error as Error
-        );
-      }
-      scope.throwIfCanceled();
-
-      const updatedCandyMachine = await this.findByAddress(
-        candyMachine.address
-      ).run(scope);
-      return { nft, candyMachine: updatedCandyMachine, ...output };
-    });
-  }
-
-  update(
-    candyMachine: CandyMachine,
-    input: Omit<UpdateCandyMachineInput, 'candyMachine'>
-  ): Task<UpdateCandyMachineOutput & { candyMachine: CandyMachine }> {
-    return new Task(async (scope) => {
-      const output = await this.metaplex
-        .operations()
-        .execute(
-          updateCandyMachineOperation({ candyMachine, ...input }),
-          scope
-        );
-      scope.throwIfCanceled();
-      const updatedCandyMachine = await this.findByAddress(
-        candyMachine.address
-      ).run();
-      return { candyMachine: updatedCandyMachine, ...output };
-    });
-  }
-
-  updateFromJsonConfig(
-    candyMachine: CandyMachine,
-    input: Omit<UpdateCandyMachineInputWithoutConfigs, 'candyMachine'> & {
-      json: CandyMachineJsonConfigs;
-    }
-  ) {
-    const { json, ...otherInputs } = input;
-    const configs = toCandyMachineConfigsFromJson(json);
-    return this.update(candyMachine, { ...otherInputs, ...configs });
+      .getTask(updateCandyMachineOperation(input));
   }
 }
