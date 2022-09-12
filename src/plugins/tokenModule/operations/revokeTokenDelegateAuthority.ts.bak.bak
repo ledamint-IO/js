@@ -8,7 +8,7 @@ import {
   useOperation,
 } from '@/types';
 import { TransactionBuilder } from '@/utils';
-import { createRevokeInstruction } from '@solana/safe-token';
+import { createRevokeInstruction } from '@solana/spl-token';
 import { ConfirmOptions, PublicKey } from '@solana/web3.js';
 import { SendAndConfirmTransactionResponse } from '../../rpcModule';
 import { findAssociatedTokenAccountPda } from '../pdas';

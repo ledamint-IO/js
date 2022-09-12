@@ -8,7 +8,7 @@ import {
   useOperation,
 } from '@/types';
 import { TransactionBuilder } from '@/utils';
-import { createFreezeAccountInstruction } from '@solana/safe-token';
+import { createThawAccountInstruction } from '@solana/spl-token';
 import { ConfirmOptions, PublicKey } from '@solana/web3.js';
 import { SendAndConfirmTransactionResponse } from '../../rpcModule';
 import { findAssociatedTokenAccountPda } from '../pdas';
@@ -18,35 +18,35 @@ import { TokenProgram } from '../program';
 // Operation
 // -----------------
 
-const Key = 'FreezeTokensOperation' as const;
+const Key = 'ThawTokensOperation' as const;
 
 /**
- * Freezes a token account.
+ * Thaws a token account.
  *
  * ```ts
- * await metaplex.tokens().freeze({ mintAddress, freezeAuthority }).run();
+ * await metaplex.tokens().thaw({ mintAddress, freezeAuthority }).run();
  * ```
  *
  * @group Operations
  * @category Constructors
  */
-export const freezeTokensOperation = useOperation<FreezeTokensOperation>(Key);
+export const thawTokensOperation = useOperation<ThawTokensOperation>(Key);
 
 /**
  * @group Operations
  * @category Types
  */
-export type FreezeTokensOperation = Operation<
+export type ThawTokensOperation = Operation<
   typeof Key,
-  FreezeTokensInput,
-  FreezeTokensOutput
+  ThawTokensInput,
+  ThawTokensOutput
 >;
 
 /**
  * @group Operations
  * @category Inputs
  */
-export type FreezeTokensInput = {
+export type ThawTokensInput = {
   /** The address of the mint account. */
   mintAddress: PublicKey;
 
@@ -91,7 +91,7 @@ export type FreezeTokensInput = {
  * @group Operations
  * @category Outputs
  */
-export type FreezeTokensOutput = {
+export type ThawTokensOutput = {
   /** The blockchain response from sending and confirming the transaction. */
   response: SendAndConfirmTransactionResponse;
 };
@@ -100,13 +100,13 @@ export type FreezeTokensOutput = {
  * @group Operations
  * @category Handlers
  */
-export const freezeTokensOperationHandler: OperationHandler<FreezeTokensOperation> =
+export const thawTokensOperationHandler: OperationHandler<ThawTokensOperation> =
   {
     async handle(
-      operation: FreezeTokensOperation,
+      operation: ThawTokensOperation,
       metaplex: Metaplex
-    ): Promise<FreezeTokensOutput> {
-      return freezeTokensBuilder(metaplex, operation.input).sendAndConfirm(
+    ): Promise<ThawTokensOutput> {
+      return thawTokensBuilder(metaplex, operation.input).sendAndConfirm(
         metaplex,
         operation.input.confirmOptions
       );
@@ -121,27 +121,27 @@ export const freezeTokensOperationHandler: OperationHandler<FreezeTokensOperatio
  * @group Transaction Builders
  * @category Inputs
  */
-export type FreezeTokensBuilderParams = Omit<
-  FreezeTokensInput,
+export type ThawTokensBuilderParams = Omit<
+  ThawTokensInput,
   'confirmOptions'
 > & {
-  /** A key to distinguish the instruction that freezes the token account. */
+  /** A key to distinguish the instruction that thaws the token account. */
   instructionKey?: string;
 };
 
 /**
- * Freezes a token account.
+ * Thaws a token account.
  *
  * ```ts
- * const transactionBuilder = metaplex.tokens().builders().freeze({ mintAddress, freezeAuthority });
+ * const transactionBuilder = metaplex.tokens().builders().thaw({ mintAddress, freezeAuthority });
  * ```
  *
  * @group Transaction Builders
  * @category Constructors
  */
-export const freezeTokensBuilder = (
+export const thawTokensBuilder = (
   metaplex: Metaplex,
-  params: FreezeTokensBuilderParams
+  params: ThawTokensBuilderParams
 ): TransactionBuilder => {
   const {
     mintAddress,
@@ -160,7 +160,7 @@ export const freezeTokensBuilder = (
     tokenAddress ?? findAssociatedTokenAccountPda(mintAddress, tokenOwner);
 
   return TransactionBuilder.make().add({
-    instruction: createFreezeAccountInstruction(
+    instruction: createThawAccountInstruction(
       tokenAddressOrAta,
       mintAddress,
       authorityPublicKey,
@@ -168,6 +168,6 @@ export const freezeTokensBuilder = (
       tokenProgram
     ),
     signers,
-    key: params.instructionKey ?? 'freezeTokens',
+    key: params.instructionKey ?? 'thawTokens',
   });
 };

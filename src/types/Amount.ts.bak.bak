@@ -11,13 +11,13 @@ export type Amount<T extends Currency = Currency> = {
 export type Currency = {
   symbol: string;
   decimals: number;
-  namespace?: 'safe-token';
+  namespace?: 'spl-token';
 };
 
 export type SplTokenCurrency = {
   symbol: string;
   decimals: number;
-  namespace: 'safe-token';
+  namespace: 'spl-token';
 };
 export type SplTokenAmount = Amount<SplTokenCurrency>;
 
@@ -73,7 +73,7 @@ export const token = (
     currency: {
       symbol,
       decimals,
-      namespace: 'safe-token',
+      namespace: 'spl-token',
     },
   };
 };

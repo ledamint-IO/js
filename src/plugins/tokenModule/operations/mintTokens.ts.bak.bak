@@ -10,7 +10,7 @@ import {
   useOperation,
 } from '@/types';
 import { DisposableScope, TransactionBuilder } from '@/utils';
-import { createTransferInstruction } from '@solana/safe-token';
+import { createMintToInstruction } from '@solana/spl-token';
 import { ConfirmOptions, PublicKey } from '@solana/web3.js';
 import { SendAndConfirmTransactionResponse } from '../../rpcModule';
 import { findAssociatedTokenAccountPda } from '../pdas';
@@ -20,15 +20,15 @@ import { TokenProgram } from '../program';
 // Operation
 // -----------------
 
-const Key = 'SendTokensOperation' as const;
+const Key = 'MintTokensOperation' as const;
 
 /**
- * Send tokens from one account to another.
+ * Mint tokens to an account.
  *
  * ```ts
  * await metaplex
  *   .tokens()
- *   .send({
+ *   .mint({
  *     mintAddress,
  *     toOwner,
  *     amount: token(100),
@@ -39,23 +39,23 @@ const Key = 'SendTokensOperation' as const;
  * @group Operations
  * @category Constructors
  */
-export const sendTokensOperation = useOperation<SendTokensOperation>(Key);
+export const mintTokensOperation = useOperation<MintTokensOperation>(Key);
 
 /**
  * @group Operations
  * @category Types
  */
-export type SendTokensOperation = Operation<
+export type MintTokensOperation = Operation<
   typeof Key,
-  SendTokensInput,
-  SendTokensOutput
+  MintTokensInput,
+  MintTokensOutput
 >;
 
 /**
  * @group Operations
  * @category Inputs
  */
-export type SendTokensInput = {
+export type MintTokensInput = {
   /** The address of the mint account. */
   mintAddress: PublicKey;
 
@@ -63,18 +63,18 @@ export type SendTokensInput = {
   amount: SplTokenAmount;
 
   /**
-   * The owner of the destination token account.
+   * The owner of the token account to mint to.
    *
    * @defaultValue `metaplex.identity().publicKey`
    */
   toOwner?: PublicKey;
 
   /**
-   * The address of the destination token account.
+   * The address of the token account to mint to.
    *
    * Note that this may be required as a `Signer` if the destination
    * token account does not exist and we need to create it before
-   * sending the tokens.
+   * minting the tokens.
    *
    * @defaultValue Defaults to using the associated token account
    * from the `mintAddress` and `toOwner` parameters.
@@ -82,43 +82,21 @@ export type SendTokensInput = {
   toToken?: PublicKey | Signer;
 
   /**
-   * The owner of the source token account.
+   * The authority that is allowed to mint new tokens as a Signer.
    *
-   * This may be provided as a PublicKey if one of the following is true:
-   * - the owner of the source token account is a multisig and the
-   *   `fromMultiSigners` parameter is provided.
-   * - we are using a delegate authority to send the tokens and the
-   *   `delegateAuthority` parameter is provided.
+   * This may be provided as a PublicKey if and only if
+   * the `multiSigners` parameter is provided.
    *
    * @defaultValue `metaplex.identity()`
    */
-  fromOwner?: PublicKey | Signer; // Defaults to mx.identity().
+  mintAuthority?: PublicKey | Signer;
 
   /**
-   * The address of the source token account.
-   *
-   * @defaultValue Defaults to using the associated token account
-   * from the `mintAddress` and `fromOwner` parameters.
-   */
-  fromToken?: PublicKey;
-
-  /**
-   * The signing accounts to use if the source token owner is a multisig.
+   * The signing accounts to use if the mint authority is a multisig.
    *
    * @defaultValue `[]`
    */
-  fromMultiSigners?: KeypairSigner[];
-
-  /**
-   * The delegate authority of the source token account as a Signer.
-   *
-   * This is required when the owner of the source token account
-   * is provided as a PublicKey as someone needs to authorize
-   * that transfer of tokens.
-   *
-   * @defaultValue Defaults to not using a delegate authority.
-   */
-  delegateAuthority?: Signer;
+  multiSigners?: KeypairSigner[];
 
   /**
    * The Signer paying for the new token account if it does not
@@ -142,7 +120,7 @@ export type SendTokensInput = {
  * @group Operations
  * @category Outputs
  */
-export type SendTokensOutput = {
+export type MintTokensOutput = {
   /** The blockchain response from sending and confirming the transaction. */
   response: SendAndConfirmTransactionResponse;
 };
@@ -151,13 +129,13 @@ export type SendTokensOutput = {
  * @group Operations
  * @category Handlers
  */
-export const sendTokensOperationHandler: OperationHandler<SendTokensOperation> =
+export const mintTokensOperationHandler: OperationHandler<MintTokensOperation> =
   {
     async handle(
-      operation: SendTokensOperation,
+      operation: MintTokensOperation,
       metaplex: Metaplex,
       scope: DisposableScope
-    ): Promise<SendTokensOutput> {
+    ): Promise<MintTokensOutput> {
       const {
         mintAddress,
         toOwner = metaplex.identity().publicKey,
@@ -172,7 +150,7 @@ export const sendTokensOperationHandler: OperationHandler<SendTokensOperation> =
         .accountExists(destinationAddress);
       scope.throwIfCanceled();
 
-      const builder = await sendTokensBuilder(metaplex, {
+      const builder = await mintTokensBuilder(metaplex, {
         ...operation.input,
         toTokenExists: destinationAccountExists,
       });
@@ -190,12 +168,12 @@ export const sendTokensOperationHandler: OperationHandler<SendTokensOperation> =
  * @group Transaction Builders
  * @category Inputs
  */
-export type SendTokensBuilderParams = Omit<
-  SendTokensInput,
+export type MintTokensBuilderParams = Omit<
+  MintTokensInput,
   'confirmOptions'
 > & {
   /**
-   * Whether or not the receiving token account already exists.
+   * Whether or not the provided token account already exists.
    * If `false`, we'll add another instruction to create it.
    *
    * @defaultValue `true`
@@ -211,18 +189,18 @@ export type SendTokensBuilderParams = Omit<
   /** A key to distinguish the instruction that initializes the token account. */
   initializeTokenInstructionKey?: string;
 
-  /** A key to distinguish the instruction that transfers the tokens. */
-  transferTokensInstructionKey?: string;
+  /** A key to distinguish the instruction that mints tokens. */
+  mintTokensInstructionKey?: string;
 };
 
 /**
- * Send tokens from one account to another.
+ * Mint tokens to an account.
  *
  * ```ts
  * const transactionBuilder = await metaplex
  *   .tokens()
  *   .builders()
- *   .send({
+ *   .mint({
  *     mintAddress,
  *     toOwner,
  *     amount: token(100),
@@ -232,9 +210,9 @@ export type SendTokensBuilderParams = Omit<
  * @group Transaction Builders
  * @category Constructors
  */
-export const sendTokensBuilder = async (
+export const mintTokensBuilder = async (
   metaplex: Metaplex,
-  params: SendTokensBuilderParams
+  params: MintTokensBuilderParams
 ): Promise<TransactionBuilder> => {
   const {
     mintAddress,
@@ -242,20 +220,16 @@ export const sendTokensBuilder = async (
     toOwner = metaplex.identity().publicKey,
     toToken,
     toTokenExists = true,
-    fromOwner = metaplex.identity(),
-    fromToken,
-    fromMultiSigners = [],
-    delegateAuthority,
+    mintAuthority = metaplex.identity(),
+    multiSigners = [],
     payer = metaplex.identity(),
     tokenProgram = TokenProgram.publicKey,
   } = params;
 
-  const [fromOwnerPublicKey, signers] = isSigner(fromOwner)
-    ? [fromOwner.publicKey, [fromOwner]]
-    : [fromOwner, [delegateAuthority, ...fromMultiSigners].filter(isSigner)];
+  const [mintAuthorityPublicKey, signers] = isSigner(mintAuthority)
+    ? [mintAuthority.publicKey, [mintAuthority]]
+    : [mintAuthority, multiSigners];
 
-  const source =
-    fromToken ?? findAssociatedTokenAccountPda(mintAddress, fromOwnerPublicKey);
   const destination =
     toToken ?? findAssociatedTokenAccountPda(mintAddress, toOwner);
 
@@ -278,18 +252,18 @@ export const sendTokensBuilder = async (
           })
       )
 
-      // Transfer tokens.
+      // Mint tokens.
       .add({
-        instruction: createTransferInstruction(
-          source,
+        instruction: createMintToInstruction(
+          mintAddress,
           toPublicKey(destination),
-          delegateAuthority ? delegateAuthority.publicKey : fromOwnerPublicKey,
+          mintAuthorityPublicKey,
           amount.basisPoints.toNumber(),
-          fromMultiSigners,
+          multiSigners,
           tokenProgram
         ),
         signers,
-        key: params.transferTokensInstructionKey ?? 'transferTokens',
+        key: params.mintTokensInstructionKey ?? 'mintTokens',
       })
   );
 };

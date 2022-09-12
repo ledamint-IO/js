@@ -4,7 +4,7 @@ import { assert, Option } from '@/utils';
 import { TokenAccount } from '../accounts';
 import { Mint } from './Mint';
 import { findAssociatedTokenAccountPda } from '../pdas';
-import { AccountState } from '@solana/safe-token';
+import { AccountState } from '@solana/spl-token';
 
 /**
  * This model represents a token account.
