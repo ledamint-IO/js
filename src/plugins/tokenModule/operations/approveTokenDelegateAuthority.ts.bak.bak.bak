@@ -5,10 +5,12 @@ import {
   Operation,
   OperationHandler,
   Signer,
+  SplTokenAmount,
+  token,
   useOperation,
 } from '@/types';
 import { TransactionBuilder } from '@/utils';
-import { createRevokeInstruction } from '@solana/safe-token';
+import { createApproveInstruction } from '@solana/spl-token';
 import { ConfirmOptions, PublicKey } from '@solana/web3.js';
 import { SendAndConfirmTransactionResponse } from '../../rpcModule';
 import { findAssociatedTokenAccountPda } from '../pdas';
@@ -18,40 +20,55 @@ import { TokenProgram } from '../program';
 // Operation
 // -----------------
 
-const Key = 'RevokeTokenDelegateAuthorityOperation' as const;
+const Key = 'ApproveTokenDelegateAuthorityOperation' as const;
 
 /**
- * Revokes the current delegate authority for a token account.
+ * Approves a delegate authority for a token account.
  *
  * ```ts
  * await metaplex
  *   .tokens()
- *   .revokeDelegateAuthority({ mintAddress })
+ *   .approveDelegateAuthority({
+ *     delegateAuthority,
+ *     mintAddress,
+ *   })
  *   .run();
  * ```
  *
  * @group Operations
  * @category Constructors
  */
-export const revokeTokenDelegateAuthorityOperation =
-  useOperation<RevokeTokenDelegateAuthorityOperation>(Key);
+export const approveTokenDelegateAuthorityOperation =
+  useOperation<ApproveTokenDelegateAuthorityOperation>(Key);
 
 /**
  * @group Operations
  * @category Types
  */
-export type RevokeTokenDelegateAuthorityOperation = Operation<
+export type ApproveTokenDelegateAuthorityOperation = Operation<
   typeof Key,
-  RevokeTokenDelegateAuthorityInput,
-  RevokeTokenDelegateAuthorityOutput
+  ApproveTokenDelegateAuthorityInput,
+  ApproveTokenDelegateAuthorityOutput
 >;
 
 /**
  * @group Operations
  * @category Inputs
- */
-export type RevokeTokenDelegateAuthorityInput = {
+ * */
+export type ApproveTokenDelegateAuthorityInput = {
+  /** The address of the mint account. */
   mintAddress: PublicKey;
+
+  /** The address of the new delegate authority. */
+  delegateAuthority: PublicKey;
+
+  /**
+   * The maximum amount of tokens that can be manipulated
+   * by the new delegate authority.
+   *
+   * @defaultValue `token(1)`
+   */
+  amount?: SplTokenAmount;
 
   /**
    * The owner of the token account as a Signer.
@@ -89,7 +106,7 @@ export type RevokeTokenDelegateAuthorityInput = {
  * @group Operations
  * @category Outputs
  */
-export type RevokeTokenDelegateAuthorityOutput = {
+export type ApproveTokenDelegateAuthorityOutput = {
   /** The blockchain response from sending and confirming the transaction. */
   response: SendAndConfirmTransactionResponse;
 };
@@ -98,13 +115,13 @@ export type RevokeTokenDelegateAuthorityOutput = {
  * @group Operations
  * @category Handlers
  */
-export const revokeTokenDelegateAuthorityOperationHandler: OperationHandler<RevokeTokenDelegateAuthorityOperation> =
+export const approveTokenDelegateAuthorityOperationHandler: OperationHandler<ApproveTokenDelegateAuthorityOperation> =
   {
     handle: async (
-      operation: RevokeTokenDelegateAuthorityOperation,
+      operation: ApproveTokenDelegateAuthorityOperation,
       metaplex: Metaplex
-    ): Promise<RevokeTokenDelegateAuthorityOutput> => {
-      return revokeTokenDelegateAuthorityBuilder(
+    ): Promise<ApproveTokenDelegateAuthorityOutput> => {
+      return approveTokenDelegateAuthorityBuilder(
         metaplex,
         operation.input
       ).sendAndConfirm(metaplex, operation.input.confirmOptions);
@@ -119,33 +136,38 @@ export const revokeTokenDelegateAuthorityOperationHandler: OperationHandler<Revo
  * @group Transaction Builders
  * @category Inputs
  */
-export type RevokeTokenDelegateAuthorityBuilderParams = Omit<
-  RevokeTokenDelegateAuthorityInput,
+export type ApproveTokenDelegateAuthorityBuilderParams = Omit<
+  ApproveTokenDelegateAuthorityInput,
   'confirmOptions'
 > & {
-  /** A key to distinguish the instruction that revokes the delegated authority. */
+  /** A key to distinguish the instruction that approves the delegate authority. */
   instructionKey?: string;
 };
 
 /**
- * Revokes the current delegate authority for a token account.
+ * Approves a delegate authority for a token account.
  *
  * ```ts
- * await metaplex
+ * const transactionBuilder = metaplex
  *   .tokens()
  *   .builders()
- *   .revokeDelegateAuthority({ mintAddress });
+ *   .approveDelegateAuthority({
+ *     delegateAuthority,
+ *     mintAddress,
+ *   });
  * ```
  *
  * @group Transaction Builders
  * @category Constructors
  */
-export const revokeTokenDelegateAuthorityBuilder = (
+export const approveTokenDelegateAuthorityBuilder = (
   metaplex: Metaplex,
-  params: RevokeTokenDelegateAuthorityBuilderParams
+  params: ApproveTokenDelegateAuthorityBuilderParams
 ): TransactionBuilder => {
   const {
     mintAddress,
+    delegateAuthority,
+    amount = token(1),
     owner = metaplex.identity(),
     tokenAddress,
     multiSigners = [],
@@ -156,17 +178,19 @@ export const revokeTokenDelegateAuthorityBuilder = (
     ? [owner.publicKey, [owner]]
     : [owner, multiSigners];
 
-  const tokenAccount =
+  const tokenAddressOrAta =
     tokenAddress ?? findAssociatedTokenAccountPda(mintAddress, ownerPublicKey);
 
   return TransactionBuilder.make().add({
-    instruction: createRevokeInstruction(
-      tokenAccount,
+    instruction: createApproveInstruction(
+      tokenAddressOrAta,
+      delegateAuthority,
       ownerPublicKey,
+      amount.basisPoints.toNumber(),
       multiSigners,
       tokenProgram
     ),
     signers,
-    key: params.instructionKey ?? 'revokeDelegateAuthority',
+    key: params.instructionKey ?? 'approveDelegateAuthority',
   });
 };
