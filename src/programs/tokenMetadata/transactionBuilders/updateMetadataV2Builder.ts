@@ -1,0 +1,49 @@
+import { PublicKey } from '@safecoin/web3.js';
+import {
+  createUpdateMetadataAccountV2Instruction,
+  DataV2,
+} from '@leda-mint-io/lpl-token-metadata';
+import { TransactionBuilder, Signer } from '@/shared';
+
+export interface UpdateMetadataV2BuilderParams {
+  data: DataV2;
+  newUpdateAuthority: PublicKey;
+  primarySaleHappened: boolean;
+  isMutable: boolean;
+  metadata: PublicKey;
+  updateAuthority: Signer;
+  instructionKey?: string;
+}
+
+export const updateMetadataV2Builder = (
+  params: UpdateMetadataV2BuilderParams
+): TransactionBuilder => {
+  const {
+    data,
+    newUpdateAuthority,
+    primarySaleHappened,
+    isMutable,
+    metadata,
+    updateAuthority,
+    instructionKey = 'updateMetadatav2',
+  } = params;
+
+  return TransactionBuilder.make().add({
+    instruction: createUpdateMetadataAccountV2Instruction(
+      {
+        metadata,
+        updateAuthority: updateAuthority.publicKey,
+      },
+      {
+        updateMetadataAccountArgsV2: {
+          data,
+          updateAuthority: newUpdateAuthority,
+          primarySaleHappened,
+          isMutable,
+        },
+      }
+    ),
+    signers: [updateAuthority],
+    key: instructionKey,
+  });
+};

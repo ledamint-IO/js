@@ -1,11 +1,9 @@
-
 import mime from 'mime';
 
 // eslint-disable-next-line no-control-regex
 export const removeEmptyChars = (value: string) => value.replace(/\u0000/g, '');
 
-export const padEmptyChars = (value: string, chars: number) =>
-  value.padEnd(chars, '\u0000');
+export const padEmptyChars = (value: string, chars: number) => value.padEnd(chars, '\u0000');
 
 export const tryOr = <T, U>(callback: () => T, defaultValue: U): T | U => {
   try {
@@ -36,6 +34,16 @@ export const zipMap = <T, U, V>(
   fn: (t: T, u: U | null, i: number) => V
 ): V[] => left.map((t: T, index) => fn(t, right?.[index] ?? null, index));
 
+export const fetchJson = async <T>(uri: string): Promise<T | null> => {
+  try {
+    const response = await fetch(uri);
+    const metadata: T = await response.json();
+    return metadata;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const randomStr = (
   length: number = 20,
   alphabet: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -49,8 +57,7 @@ export const randomStr = (
   return result;
 };
 
-export const getContentType = (fileName: string): string | null =>
-  mime.getType(fileName);
+export const getContentType = (fileName: string): string | null => mime.getType(fileName);
 
 export const getExtension = (fileName: string): string | null => {
   const lastDotIndex = fileName.lastIndexOf('.');
@@ -64,12 +71,7 @@ export type WalkOptions = {
 
 export const walk = (
   parent: any,
-  cb: (
-    next: (child: any) => void,
-    value: any,
-    key: any,
-    parent: any
-  ) => unknown,
+  cb: (walk: (child: any) => void, value: any, key: any, parent: any) => unknown,
   options?: WalkOptions
 ): void => {
   const recursiveWalk = (child: any) => walk(child, cb, options);

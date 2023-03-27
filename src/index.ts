@@ -1,8 +1,6 @@
-export * from './errors';
-export * from './plugins';
-export * from './types';
+export * from './drivers';
+export * from './modules';
+export * from './shared';
 export * from './utils';
 export * from './Metaplex';
-
-// Need to be referenced here otherwise rollup will not include the file.
-export * from './accountProviders';
+export * from './MetaplexPlugin';
